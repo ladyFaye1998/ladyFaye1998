@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/main/assets/header.svg" width="100%" alt="Danielle Lesin · Lady Faye" />
+<img src="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/main/assets/Header.svg" width="100%" alt="Danielle Lesin · Lady Faye" />
 
 <br>
 
@@ -128,7 +128,7 @@ Institution policy means nothing leaves the classroom. The knowledge does though
 
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/main/assets/tea.svg" alt="animated teapot" width="340" />
+<img src="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/main/assets/Tea.svg" alt="animated teapot" width="340" />
 
 ### ✦ Buy me Tea
 
