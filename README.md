@@ -59,12 +59,25 @@ Institution policy means nothing leaves the classroom. The knowledge does though
 
 ---
 
-<!-- ░░ FEATURE 2 — RECENTLY ACTIVE REPOS ░░ -->
+<!-- ░░ FEATURE 2 — HNEFATAFL ░░ -->
 
-### ✦ Recently Active
+### ✦ The King's Table
 
-<!-- REPOS:START -->
-<!-- REPOS:END -->
+<div align="center">
+
+<sub><i>Everyone plays chess. I study the games that came before chess existed — and I play those instead.</i></sub>
+
+<br>
+
+**Hnefatafl** — the Viking war game. Asymmetric, brutal, older than chess by centuries.  
+The King must reach a corner. The attackers must stop him.
+
+<img src="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/main/assets/hnefatafl-board.svg" alt="Hnefatafl board" width="540" />
+
+**To play:** Open an [Issue](https://github.com/ladyFaye1998/ladyFaye1998/issues/new?title=Move%3A+e6-e9&body=Format%3A+Move%3A+from-to+%28e.g.+Move%3A+f6-f9%29%0AColumns+a%E2%80%93k+%C2%B7+Rows+1%E2%80%9311) titled `Move: from-to` — e.g. `Move: f6-f9`  
+Columns `a–k` · Rows `1–11` · Attackers play rose ◆ · Defenders play blue ● · King is ◇
+
+</div>
 
 <br>
 
