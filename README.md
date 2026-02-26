@@ -65,19 +65,24 @@ Institution policy means nothing leaves the classroom. The knowledge does though
 
 <div align="center">
 
-<sub><i>Everyone plays chess. I study the games that came before chess existed — and I play those instead.</i></sub>
+<sub><i>Chess is a great game. I simply prefer the one that predates it by a thousand years.</i></sub>
 
 <br>
 
-**Hnefatafl** — the Viking war game. Asymmetric, brutal, older than chess by centuries.  
-You command the **attackers** (rose ◆). The King's Guard is played by an AI.  
-Surround the King. The AI will respond immediately.
+**Hnefatafl** — the Viking war game. Asymmetric, ancient, and almost forgotten.  
+You command the **attackers** (rose ◆) against an AI defending the King.  
+Surround the King on all four sides to win. The AI responds within ~30 seconds.
 
 <img src="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/main/assets/hnefatafl-board.svg" alt="Hnefatafl board" width="540" />
 
-**To play:** Open an [Issue](https://github.com/ladyFaye1998/ladyFaye1998/issues/new?title=Move%3A+from-to&body=Replace+from-to+with+your+move%2C+e.g.+Move%3A+f6-f9%0AColumns+a-k+%C2%B7+Rows+1-11) titled `Move: from-to` — e.g. `Move: f6-f9`  
-The AI replies within ~30 seconds and the board updates live.  
-[Start a new game](https://github.com/ladyFaye1998/ladyFaye1998/issues/new?title=Reset&body=New+game) · Columns `a–k` · Rows `1–11` · Attackers ◆ · Defenders ● · King ◇
+**How to play:**
+
+> 1. Click → [**Make your move**](https://github.com/ladyFaye1998/ladyFaye1998/issues/new?title=Move%3A+from-to&body=Replace+from-to+with+your+move%2C+e.g.+Move%3A+f6-f9%0AColumns+a-k+%C2%B7+Rows+1-11)
+> 2. Edit the Issue **title** to your move — e.g. `Move: f1-f5`
+> 3. Submit — the board updates automatically, the AI replies in the Issue comment
+> 4. Come back and make your next move
+
+Columns `a–k` left to right · Rows `1–11` top to bottom · [Start a new game](https://github.com/ladyFaye1998/ladyFaye1998/issues/new?title=Reset&body=New+game)
 
 </div>
 
@@ -97,28 +102,14 @@ The AI replies within ~30 seconds and the board updates live.
 
 ---
 
-<!-- ░░ FEATURE 3 — TROPHIES ░░ -->
-
-<div align="center">
-
-<img src="https://github-profile-trophy.vercel.app/?username=ladyFaye1998&theme=discord&no-frame=true&no-bg=true&margin-w=10&column=6&rank=SECRET,SSS,SS,S,AAA,AA,A,B,C" width="100%" />
-
-</div>
-
-<br>
-
 ---
 
-<!-- ░░ FEATURE 4 — CONTRIBUTION SNAKE ░░ -->
+<!-- ░░ FEATURE 4 — CONTRIBUTION CITY ░░ -->
 
-### ✦ Contribution Map
+### ✦ Contribution City
 
 <div align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/output/github-contribution-grid-snake-dark.svg" />
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/output/github-contribution-grid-snake.svg" />
-    <img alt="contribution snake" src="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/output/github-contribution-grid-snake.svg" />
-  </picture>
+<img src="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/main/assets/contribution-city.svg" alt="contribution city" width="700" />
 </div>
 
 <br>
