@@ -12,7 +12,9 @@ permissions:
 
 jobs:
 
-  # ── Contribution Snake (palette-matched to profile) ─────────────────────────
+  # ── Contribution Snake ───────────────────────────────────────────────────────
+  # The snake eats each contribution dot and grows longer with every bite.
+  # Its max length = your total contributions this year. More commits = longer snake.
   snake:
     name: Generate contribution snake
     runs-on: ubuntu-latest
@@ -22,8 +24,8 @@ jobs:
         with:
           github_user_name: ${{ github.repository_owner }}
           outputs: |
-            dist/github-contribution-grid-snake.svg?color_snake=B0C4DE&color_dots[0]=0D1118&color_dots[1]=2A3F6F&color_dots[2]=4A6FA5&color_dots[3]=7B9EC7&color_dots[4]=B0C4DE
-            dist/github-contribution-grid-snake-dark.svg?color_snake=C4A8B8&color_dots[0]=0D1118&color_dots[1]=2A3F6F&color_dots[2]=4A6FA5&color_dots[3]=7B9EC7&color_dots[4]=C4A8B8
+            dist/github-contribution-grid-snake.svg?color_snake=8AAFD4&color_dots[0]=0D1118&color_dots[1]=1B2C4F&color_dots[2]=2A3F6F&color_dots[3]=4A6FA5&color_dots[4]=8AAFD4
+            dist/github-contribution-grid-snake-dark.svg?color_snake=C4A8B8&color_dots[0]=0D1118&color_dots[1]=1B2C4F&color_dots[2]=2A3F6F&color_dots[3]=4A6FA5&color_dots[4]=C4A8B8
 
       - uses: crazy-max/ghaction-github-pages@v3.1.0
         with:
