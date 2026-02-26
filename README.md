@@ -147,7 +147,7 @@ Off-screen: horseback, armor, or both.
 ### ✦ Buy me Tea
 
 The research, the games, the worlds in progress — they run on focus, code,  
-and a frankly alarming volume of tea. Not coffee. Never coffee.
+and a frankly alarming volume of tea. 
 
 Sponsor the next build. It's tax-deductible in the sense that it makes you feel good.
 
