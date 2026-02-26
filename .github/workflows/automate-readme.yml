@@ -2,8 +2,8 @@ name: Automate README
 
 on:
   schedule:
-    - cron: "0 0 * * *"   # runs every night at midnight UTC
-  workflow_dispatch:        # lets you trigger it manually from the Actions tab
+    - cron: "0 0 * * *"
+  workflow_dispatch:
   push:
     branches: [main]
 
@@ -12,7 +12,7 @@ permissions:
 
 jobs:
 
-  # ── Contribution Snake ───────────────────────────────────────────────────────
+  # ── Contribution Snake (palette-matched to profile) ─────────────────────────
   snake:
     name: Generate contribution snake
     runs-on: ubuntu-latest
@@ -22,8 +22,8 @@ jobs:
         with:
           github_user_name: ${{ github.repository_owner }}
           outputs: |
-            dist/github-contribution-grid-snake.svg
-            dist/github-contribution-grid-snake-dark.svg?palette=github-dark
+            dist/github-contribution-grid-snake.svg?color_snake=B0C4DE&color_dots[0]=0D1118&color_dots[1]=2A3F6F&color_dots[2]=4A6FA5&color_dots[3]=7B9EC7&color_dots[4]=B0C4DE
+            dist/github-contribution-grid-snake-dark.svg?color_snake=C4A8B8&color_dots[0]=0D1118&color_dots[1]=2A3F6F&color_dots[2]=4A6FA5&color_dots[3]=7B9EC7&color_dots[4]=C4A8B8
 
       - uses: crazy-max/ghaction-github-pages@v3.1.0
         with:
