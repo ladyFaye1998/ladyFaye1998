@@ -1,0 +1,235 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Hnefatafl — triggered when an Issue is opened with title "Move: from-to"
+# e.g. Issue title: "Move: e6-e9"
+# ─────────────────────────────────────────────────────────────────────────────
+name: Hnefatafl
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  play:
+    if: startsWith(github.event.issue.title, 'Move:')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Process move and redraw board
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_USER: ${{ github.event.issue.user.login }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 - << 'PYEOF'
+          import json, os, re, pathlib, sys
+
+          EMPTY, ATK, DEF, KING = 0, 1, 2, 3
+          ATK_LABEL  = "attacker"
+          DEF_LABEL  = "defender"
+          CORNERS    = {(0,0),(0,10),(10,0),(10,10)}
+          THRONE     = (5, 5)
+
+          # ── helpers ────────────────────────────────────────────────────────
+          def col(c): return ord(c.lower()) - ord('a')
+          def row(r): return 11 - int(r)
+          def notation(r, c): return chr(ord('a')+c) + str(11-r)
+
+          def parse_move(title):
+              m = re.search(r'([a-kA-K])(\d{1,2})-([a-kA-K])(\d{1,2})', title)
+              if not m: return None
+              fc, fr, tc, tr = m.group(1), m.group(2), m.group(3), m.group(4)
+              return (row(fr), col(fc)), (row(tr), col(tc))
+
+          def valid_move(board, fr, fc, tr, tc, turn):
+              piece = board[fr][fc]
+              if piece == EMPTY: return False, "No piece at that square."
+              if turn == ATK_LABEL and piece != ATK: return False, "It's the attackers' turn (rose ◆)."
+              if turn == DEF_LABEL and piece not in (DEF, KING): return False, "It's the defenders' turn (blue ●)."
+              if board[tr][tc] != EMPTY: return False, "Target square is occupied."
+              # must not land on throne or corners unless king
+              if (tr, tc) in CORNERS and piece != KING: return False, "Only the King may enter the corner squares."
+              if (tr, tc) == THRONE and piece != KING: return False, "Only the King may return to the throne."
+              # rook movement — same row or col, no leaping
+              if fr != tr and fc != tc: return False, "Pieces move in straight lines only (rook-style)."
+              if fr == tr:
+                  step = 1 if tc > fc else -1
+                  for c in range(fc+step, tc, step):
+                      if board[fr][c] != EMPTY: return False, f"Path blocked at {notation(fr,c)}."
+              else:
+                  step = 1 if tr > fr else -1
+                  for r in range(fr+step, tr, step):
+                      if board[r][fc] != EMPTY: return False, f"Path blocked at {notation(r,fc)}."
+              return True, "ok"
+
+          def captures(board, tr, tc, turn):
+              captured = []
+              enemy = ATK if turn == DEF_LABEL else DEF  # simplified; king capture needs all 4
+              for dr, dc in [(-1,0),(1,0),(0,-1),(0,1)]:
+                  er, ec = tr+dr, tc+dc
+                  br, bc = tr+2*dr, tc+2*dc
+                  if 0<=er<11 and 0<=ec<11 and 0<=br<11 and 0<=bc<11:
+                      if board[er][ec] == enemy:
+                          ally = board[br][bc]
+                          if ally in (DEF, KING, ATK) and ally != enemy:
+                              captured.append((er,ec))
+              return captured
+
+          def king_captured(board):
+              kr,kc = next(((r,c) for r in range(11) for c in range(11) if board[r][c]==KING),(None,None))
+              if kr is None: return True  # already off board
+              surround = [(kr+dr,kc+dc) for dr,dc in [(-1,0),(1,0),(0,-1),(0,1)]]
+              return all(
+                  0<=r<11 and 0<=c<11 and (board[r][c]==ATK or (r,c)==THRONE)
+                  for r,c in surround
+              )
+
+          def draw_board(board, turn, move_count, last_move, log):
+              SZ=44; PAD=28; OY=50
+              W=SZ*11+PAD*2; H=SZ*11+PAD*2+60+max(0,(len(log)-1)*14)
+              BG="#0D1118"; GRID_BG="#111827"; LINE="#1E3A5F"
+              THRONE_C="#2E4B6B"; CORNER_C="#1A2E48"; HL="#5A8FAF"
+              ATK_C="#D4899A"; DEF_C="#9DC0D8"; KING_C="#F0EAE2"
+              corners={(0,0),(0,10),(10,0),(10,10)}
+              
+              turn_label = "attackers to move (rose ◆)" if turn==ATK_LABEL else "defenders to move (blue ●)"
+              lm = f" · last: {last_move}" if last_move else ""
+              els = []
+              els.append(f'<text x="{W//2}" y="22" text-anchor="middle" font-family="monospace" font-size="10" fill="#5A8FAF" opacity="0.6" letter-spacing="2">HNEFATAFL · THE KING\'S TABLE · MOVE {move_count}</text>')
+              els.append(f'<text x="{W//2}" y="38" text-anchor="middle" font-family="Georgia,serif" font-size="11" font-style="italic" fill="#F0EAE2" opacity="0.45">{turn_label}{lm}</text>')
+              els.append(f'<rect x="{PAD-4}" y="{OY+PAD-4}" width="{SZ*11+8}" height="{SZ*11+8}" rx="6" fill="{GRID_BG}" opacity="0.8"/>')
+
+              for r in range(11):
+                  for c in range(11):
+                      x=PAD+c*SZ; y=OY+PAD+r*SZ
+                      if (r,c) in corners:
+                          els.append(f'<rect x="{x}" y="{y}" width="{SZ}" height="{SZ}" fill="{CORNER_C}" stroke="{HL}" stroke-width="1.5"/>')
+                      elif r==5 and c==5:
+                          els.append(f'<rect x="{x}" y="{y}" width="{SZ}" height="{SZ}" fill="{THRONE_C}" stroke="{HL}" stroke-width="1"/>')
+                      else:
+                          fill=BG if (r+c)%2==0 else "#0F1822"
+                          els.append(f'<rect x="{x}" y="{y}" width="{SZ}" height="{SZ}" fill="{fill}" stroke="{LINE}" stroke-width="0.5"/>')
+                      if last_move:
+                          fm,tm = last_move.split('-')
+                          fc2,fr2=col(fm[0]),row(fm[1:])
+                          tc2,tr2=col(tm[0]),row(tm[1:])
+                          if (r==fr2 and c==fc2) or (r==tr2 and c==tc2):
+                              els.append(f'<rect x="{x}" y="{y}" width="{SZ}" height="{SZ}" fill="{HL}" opacity="0.12"/>')
+                      if r==10:
+                          els.append(f'<text x="{x+SZ//2}" y="{OY+PAD+SZ*11+14}" text-anchor="middle" font-family="monospace" font-size="9" fill="#5A8FAF" opacity="0.4">{chr(97+c)}</text>')
+                      if c==0:
+                          els.append(f'<text x="{PAD-10}" y="{y+SZ//2+4}" text-anchor="middle" font-family="monospace" font-size="9" fill="#5A8FAF" opacity="0.4">{11-r}</text>')
+
+              for r,c in corners:
+                  els.append(f'<circle cx="{PAD+c*SZ+SZ//2}" cy="{OY+PAD+r*SZ+SZ//2}" r="6" fill="{HL}" opacity="0.3"/>')
+              els.append(f'<circle cx="{PAD+5*SZ+SZ//2}" cy="{OY+PAD+5*SZ+SZ//2}" r="6" fill="{HL}" opacity="0.25"/>')
+
+              for r in range(11):
+                  for c in range(11):
+                      piece=board[r][c]
+                      if piece==EMPTY: continue
+                      x=PAD+c*SZ+SZ//2; y=OY+PAD+r*SZ+SZ//2
+                      if piece==ATK:
+                          d=13
+                          els.append(f'<polygon points="{x},{y-d} {x+d},{y} {x},{y+d} {x-d},{y}" fill="{ATK_C}" opacity="0.88"/>')
+                      elif piece==DEF:
+                          els.append(f'<circle cx="{x}" cy="{y}" r="13" fill="{DEF_C}" opacity="0.88"/>')
+                      elif piece==KING:
+                          d=14; s=6
+                          pts=f"{x-s},{y-d} {x+s},{y-d} {x+d},{y-s} {x+d},{y+s} {x+s},{y+d} {x-s},{y+d} {x-d},{y+s} {x-d},{y-s}"
+                          els.append(f'<polygon points="{pts}" fill="{KING_C}" opacity="0.95"/>')
+                          els.append(f'<polygon points="{pts}" fill="none" stroke="{HL}" stroke-width="1.5"/>')
+                          els.append(f'<text x="{x}" y="{y+4}" text-anchor="middle" font-family="serif" font-size="13" fill="{BG}" opacity="0.8">K</text>')
+
+              # move log (last 5)
+              log_y = OY + PAD + SZ*11 + 30
+              for i, entry in enumerate(log[-5:]):
+                  safe = entry.replace("&","&amp;").replace("<","&lt;")
+                  els.append(f'<text x="{W//2}" y="{log_y+i*14}" text-anchor="middle" font-family="monospace" font-size="9" fill="#5A8FAF" opacity="0.4">{safe}</text>')
+
+              return (
+                  f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}">'
+                  f'<rect width="{W}" height="{H}" fill="{BG}" rx="12"/>'
+                  + "".join(els) +
+                  f'</svg>'
+              )
+
+          # ── main ───────────────────────────────────────────────────────────
+          title     = os.environ["ISSUE_TITLE"]
+          issue_num = os.environ["ISSUE_NUMBER"]
+          player    = os.environ["ISSUE_USER"]
+
+          state_path = pathlib.Path("assets/hnefatafl-state.json")
+          state = json.loads(state_path.read_text())
+          board = state["board"]
+          turn  = state["turn"]
+          log   = state.get("log", [])
+
+          move = parse_move(title)
+          if move is None:
+              comment = "❌ Couldn't parse that move. Use format `Move: e6-e9`."
+              print(comment)
+              sys.exit(0)
+
+          (fr,fc),(tr,tc) = move
+          ok, reason = valid_move(board, fr, fc, tr, tc, turn)
+
+          if not ok:
+              comment = f"❌ Invalid move `{notation(fr,fc)}-{notation(tr,tc)}`: {reason}"
+              print(comment)
+          else:
+              piece = board[fr][fc]
+              board[tr][tc] = piece
+              board[fr][fc] = EMPTY
+
+              # captures
+              caps = captures(board, tr, tc, turn)
+              for r,c in caps:
+                  board[r][c] = EMPTY
+
+              state["move_count"] += 1
+              lm = f"{notation(fr,fc)}-{notation(tr,tc)}"
+              state["last_move"] = lm
+              cap_str = f" · captured {len(caps)}" if caps else ""
+              log.append(f"#{state['move_count']} {player} ({turn[0].upper()}): {lm}{cap_str}")
+              state["log"] = log
+
+              # check win conditions
+              if (tr,tc) in CORNERS and piece == KING:
+                  state["status"] = "defender_win"
+                  state["turn"] = "defenders"
+                  comment = f"👑 **The King escapes!** Defenders win in {state['move_count']} moves. Well played, {player}."
+                  log.append("GAME OVER — Defenders win")
+              elif king_captured(board):
+                  state["status"] = "attacker_win"
+                  state["turn"] = "attackers"
+                  comment = f"⚔️ **The King is captured!** Attackers win in {state['move_count']} moves. Well played, {player}."
+                  log.append("GAME OVER — Attackers win")
+              else:
+                  state["turn"] = DEF_LABEL if turn == ATK_LABEL else ATK_LABEL
+                  comment = f"✅ Move `{lm}` played by {player}.{cap_str} Board updated — it's the **{state['turn']}s'** turn."
+
+              state["board"] = board
+              state_path.write_text(json.dumps(state, indent=2))
+
+              svg = draw_board(board, state["turn"], state["move_count"], lm, log)
+              pathlib.Path("assets/hnefatafl-board.svg").write_text(svg)
+              print(comment)
+
+          # close issue with comment
+          import subprocess
+          subprocess.run([
+              "gh", "issue", "close", issue_num,
+              "--comment", comment
+          ], env={**os.environ, "GH_TOKEN": os.environ["GH_TOKEN"]})
+          PYEOF
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "game: hnefatafl move [skip ci]"
+          file_pattern: "assets/hnefatafl-board.svg assets/hnefatafl-state.json"
