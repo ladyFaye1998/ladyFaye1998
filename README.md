@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0D1118,28:1A2E48,60:5A8FAF,88:9DC0D8,100:D4899A&height=260&section=header&text=Danielle%20Lesin&fontSize=80&fontColor=F0EAE2&fontAlignY=37&animation=twinkling&desc=Lady%20Faye&descAlignY=60&descColor=9DC0D8&descSize=30" width="100%" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0D1118,28:1A2E48,60:5A8FAF,88:9DC0D8,100:D4899A&height=270&section=header&text=Danielle%20Lesin&fontSize=78&fontColor=F0EAE2&fontAlignY=37&animation=twinkling&font=Cormorant+Garamond&desc=Lady%20Faye&descAlignY=60&descColor=9DC0D8&descSize=32&descFont=Cormorant+Garamond" width="100%" />
 
 <br>
 
@@ -38,15 +38,11 @@ Off-screen: horseback, armor, or both.
 
 ---
 
-<!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
-<!-- FEATURE 1 — ROTATING DAILY QUOTE                             -->
-<!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+<!-- ░░ FEATURE 1 — RESEARCH VECTOR ░░ -->
 
-<div align="center"><sub><i>↻ changes daily</i></sub></div>
-
-<!-- QUOTE:START -->
-> *"The question is not whether machines can think — it is whether they can see what we have always seen."*
-<!-- QUOTE:END -->
+<div align="center">
+<img src="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/main/assets/research-vector.svg" alt="research vector" width="680" />
+</div>
 
 <br>
 
@@ -54,18 +50,16 @@ Off-screen: horseback, armor, or both.
 
 ### ✦ Currently
 
-> **Georgia Tech · AI for Robotics & Quantum Computing**
-> Institution policy means nothing leaves the classroom. The knowledge does though — watch what it becomes.
->
-> **Newsletter** — infrastructure in development. Not yet live. Stay close.
+**Georgia Tech · AI for Robotics & Quantum Computing**  
+Institution policy means nothing leaves the classroom. The knowledge does though — watch what it becomes.
+
+**Newsletter** — infrastructure in development. Not yet live. Stay close.
 
 <br>
 
 ---
 
-<!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
-<!-- FEATURE 2 — RECENTLY ACTIVE REPOS (auto-updated via workflow) -->
-<!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+<!-- ░░ FEATURE 2 — RECENTLY ACTIVE REPOS ░░ -->
 
 ### ✦ Recently Active
 
@@ -88,9 +82,7 @@ Off-screen: horseback, armor, or both.
 
 ---
 
-<!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
-<!-- FEATURE 3 — TROPHIES                                         -->
-<!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+<!-- ░░ FEATURE 3 — TROPHIES ░░ -->
 
 <div align="center">
 
@@ -102,11 +94,7 @@ Off-screen: horseback, armor, or both.
 
 ---
 
-<!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
-<!-- FEATURE 4 — CONTRIBUTION SNAKE                               -->
-<!-- Snake grows one cell per contribution dot it eats.           -->
-<!-- More commits this year = longer snake = more board filled.   -->
-<!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+<!-- ░░ FEATURE 4 — CONTRIBUTION SNAKE ░░ -->
 
 ### ✦ Contribution Map
 
@@ -136,9 +124,7 @@ Off-screen: horseback, armor, or both.
 
 ---
 
-<!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
-<!-- FEATURE 5 — ANIMATED TEA + SPONSOR                          -->
-<!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+<!-- ░░ FEATURE 5 — ANIMATED TEA + SPONSOR ░░ -->
 
 <div align="center">
 
@@ -147,7 +133,7 @@ Off-screen: horseback, armor, or both.
 ### ✦ Buy me Tea
 
 The research, the games, the worlds in progress — they run on focus, code,  
-and a frankly alarming volume of tea. 
+and a frankly alarming volume of tea.
 
 Sponsor the next build. It's tax-deductible in the sense that it makes you feel good.
 
