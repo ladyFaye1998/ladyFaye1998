@@ -70,12 +70,14 @@ Institution policy means nothing leaves the classroom. The knowledge does though
 <br>
 
 **Hnefatafl** — the Viking war game. Asymmetric, brutal, older than chess by centuries.  
-The King must reach a corner. The attackers must stop him.
+You command the **attackers** (rose ◆). The King's Guard is played by an AI.  
+Surround the King. The AI will respond immediately.
 
 <img src="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/main/assets/hnefatafl-board.svg" alt="Hnefatafl board" width="540" />
 
-**To play:** Open an [Issue](https://github.com/ladyFaye1998/ladyFaye1998/issues/new?title=Move%3A+e6-e9&body=Format%3A+Move%3A+from-to+%28e.g.+Move%3A+f6-f9%29%0AColumns+a%E2%80%93k+%C2%B7+Rows+1%E2%80%9311) titled `Move: from-to` — e.g. `Move: f6-f9`  
-Columns `a–k` · Rows `1–11` · Attackers play rose ◆ · Defenders play blue ● · King is ◇
+**To play:** Open an [Issue](https://github.com/ladyFaye1998/ladyFaye1998/issues/new?title=Move%3A+from-to&body=Replace+from-to+with+your+move%2C+e.g.+Move%3A+f6-f9%0AColumns+a-k+%C2%B7+Rows+1-11) titled `Move: from-to` — e.g. `Move: f6-f9`  
+The AI replies within ~30 seconds and the board updates live.  
+[Start a new game](https://github.com/ladyFaye1998/ladyFaye1998/issues/new?title=Reset&body=New+game) · Columns `a–k` · Rows `1–11` · Attackers ◆ · Defenders ● · King ◇
 
 </div>
 
