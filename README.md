@@ -109,7 +109,7 @@ Columns `a–k` left to right · Rows `1–11` top to bottom · [Start a new gam
 ### ✦ Contribution City
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/main/assets/contribution-city.svg" alt="contribution city" width="700" />
+<img src="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/main/assets/Contribution city.svg" alt="contribution city" width="700" />
 </div>
 
 <br>
