@@ -1,102 +1,90 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:161032,50:4a2070,100:9B8EC4&height=230&section=header&text=Lady%20Faye&fontSize=90&fontColor=F5E6D3&fontAlignY=38&animation=twinkling&desc=Danielle%20Lesin&descAlignY=60&descColor=C49BAB&descSize=24" width="100%" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:1C0F1A,40:5C2A3A,80:9B5B6E,100:C4879A&height=240&section=header&text=Danielle%20Lesin&fontSize=75&fontColor=F5EDE0&fontAlignY=38&animation=twinkling&desc=Lady%20Faye&descAlignY=60&descColor=D4B896&descSize=28" width="100%" />
 
 <br>
 
-[![Typing SVG](https://readme-typing-svg.demolab.com/?font=Lora&weight=600&size=22&pause=2500&color=D4B896&center=true&vCenter=true&width=780&lines=Sir+Dinadan+was+right+about+everything.;MSc+CS+%E2%80%94+Georgia+Tech+%C2%B7+AI+track;ML+frameworks+for+art+attribution;writing+time-travel+fiction+between+commits;four+degrees.+one+thread.;418%3A+I%27m+a+teapot.)](https://github.com/ladyFaye1998)
+[![Typing SVG](https://readme-typing-svg.demolab.com/?font=Lora&weight=500&size=21&pause=2000&color=D4B896&center=true&vCenter=true&width=750&lines=AI+researcher+%C2%B7+art+historian+%C2%B7+economist;MSc+Computer+Science+%E2%80%94+Georgia+Tech;I+train+models+on+17th-century+oil+paint.;five+disciplines%2C+one+thread.;418%3A+I%27m+a+teapot.)](https://github.com/ladyFaye1998)
+
+<br>
 
 </div>
 
-<br>
-
 ---
-
-I train models on 17th-century oil paint. I build pixel-art games about satirical Arthurian knights. I draft novels set across multiple timelines. Somewhere in between, I found that machine intelligence and humanistic inquiry ask the same questions — just in different dialects.
-
-Currently: finishing an MSc in Computer Science (AI track) at Georgia Tech, while running a dual-model ML framework to settle an art history debate that has been ongoing since the 1970s.
-
-<br>
-
----
-
-### ✦ What's running
-
-| | |
-|---|---|
-| **ML × Art History** | Dual-model framework for Gentileschi workshop attribution — quantifying brushstroke *habits* across Artemisia and Orazio &nbsp;·&nbsp; MA Art History, Ben-Gurion University |
-| **AI Systems** | Path/policy search algorithms, PID drone controllers, particle filters &nbsp;·&nbsp; MSc CS, Georgia Tech |
-| **Automated Search** | Fine-tuned T5 model generating Boolean search strategies from job descriptions + semantic resume scoring &nbsp;·&nbsp; BSc CS, University of London |
-| **Sir Dinadan's Quest** | 2D pixel-art game following the most underrated knight in Arthurian legend — built in Unity/C#, auto-deployed via GitHub Actions |
-| **The Novel** | A time-travel narrative. Edinburgh aesthetic. Destined-legend structure. In progress. |
-
-<br>
-
----
-
-### 🧠 Gentileschi Attribution Pipeline
-
-*A dual-model ML framework for art history — because the 1970s debate deserved a computational answer.*
-
-```mermaid
-flowchart LR
-    A["📸 Canvas Input"] --> B["ResNet-50\nVisual Encoder"]
-    A --> C["Stroke Pattern\nAnalyzer"]
-    B --> D["Joint\nEmbedding Space"]
-    C --> D
-    D --> E["Multi-class\nAttribution Classifier"]
-    E --> F{"Confidence\nThreshold"}
-    F -- "p ≥ 0.85" --> G["🎨 Artist Attribution\n─────────────────\nArtemisia Gentileschi\nOrazio Gentileschi\nWorkshop"]
-    F -- "p < 0.85" --> H["⚠ Disputed\n→ Expert Review Queue"]
-
-    style A fill:#1a1025,stroke:#9B8EC4,color:#F5E6D3
-    style B fill:#1a1025,stroke:#9B8EC4,color:#F5E6D3
-    style C fill:#1a1025,stroke:#9B8EC4,color:#F5E6D3
-    style D fill:#1a1025,stroke:#D4B896,color:#F5E6D3
-    style E fill:#1a1025,stroke:#D4B896,color:#F5E6D3
-    style F fill:#1a1025,stroke:#C49BAB,color:#C49BAB
-    style G fill:#161032,stroke:#C49BAB,color:#C49BAB
-    style H fill:#161032,stroke:#6e7681,color:#8b949e
-```
-
-<br>
-
----
-
-### ✦ Automated Search Strategy — T5 Pipeline
-
-*Fine-tuned T5 generating Boolean queries from natural language job descriptions, with semantic resume scoring.*
-
-```mermaid
-flowchart LR
-    A["📄 Job Description"] --> B["T5 Fine-tuned\nEncoder-Decoder"]
-    B --> C["Boolean Query\nGeneration"]
-    C --> D["Semantic\nScoring Engine"]
-    E["📋 Resume"] --> D
-    D --> F["Match Score\n& Ranking"]
-    B --> G["Query\nRefinement Loop"]
-    G --> C
-
-    style A fill:#1a1025,stroke:#9B8EC4,color:#F5E6D3
-    style B fill:#1a1025,stroke:#D4B896,color:#F5E6D3
-    style C fill:#1a1025,stroke:#9B8EC4,color:#F5E6D3
-    style D fill:#1a1025,stroke:#D4B896,color:#F5E6D3
-    style E fill:#1a1025,stroke:#9B8EC4,color:#F5E6D3
-    style F fill:#161032,stroke:#C49BAB,color:#C49BAB
-    style G fill:#1a1025,stroke:#6e7681,color:#8b949e
-```
-
-<br>
-
----
-
-### ✦ Built with
 
 <div align="center">
 
-<img src="https://skillicons.dev/icons?i=python,pytorch,tensorflow,sklearn,unity,cs,typescript,postgres,aws,gcp,docker,git,linux,bash" />
+**MSc Computer Science (AI)** &nbsp;·&nbsp; Georgia Institute of Technology  
+**MA Art History** &nbsp;·&nbsp; Ben-Gurion University  
+**MA Celtic Studies** &nbsp;·&nbsp; University of Wales Trinity Saint David  
+**BA Economics** &nbsp;·&nbsp; Ben-Gurion University  
+**BSc Computer Science** &nbsp;·&nbsp; University of London  
 
 </div>
+
+---
+
+<br>
+
+I study how machines see.  
+I study how humans have always seen — through paint, through story, through markets.  
+The through-line, it turns out, is pattern recognition.
+
+<br>
+
+Currently: building a dual-model ML framework to answer an art attribution question that has been contested since the 1970s. Training on brushstroke geometry, compositional habits, and pigment distribution across the Gentileschi workshop. Also: path/policy search algorithms, PID drone controllers, particle filters — the usual.
+
+When I'm not at a desk: horseback, armor, or both.
+
+<br>
+
+---
+
+### ✦ Stack
+
+<div align="center">
+
+<img src="https://skillicons.dev/icons?i=python,pytorch,tensorflow,sklearn,unity,cs,typescript,postgres,aws,gcp,docker,git,linux" />
+
+</div>
+
+<br>
+
+---
+
+### ✦ Gentileschi Attribution Pipeline
+
+*Dual-model ML framework. Settles a 50-year art history debate computationally.*
+
+```mermaid
+flowchart LR
+    A["🖼 Canvas Input"] --> B["ResNet-50\nVisual Encoder"]
+    A --> C["Stroke Geometry\nAnalyzer"]
+    B --> D["Joint\nEmbedding Space"]
+    C --> D
+    D --> E["Attribution\nClassifier"]
+    E --> F{"Confidence"}
+    F -- "≥ 0.85" --> G["🎨 Attribution\n─────────────\nArtemisia · Orazio\nWorkshop"]
+    F -- "< 0.85" --> H["⚠ Disputed\n→ Expert Queue"]
+
+    style A fill:#1C0F1A,stroke:#C4879A,color:#F5EDE0
+    style B fill:#1C0F1A,stroke:#C4879A,color:#F5EDE0
+    style C fill:#1C0F1A,stroke:#C4879A,color:#F5EDE0
+    style D fill:#1C0F1A,stroke:#D4B896,color:#F5EDE0
+    style E fill:#1C0F1A,stroke:#D4B896,color:#F5EDE0
+    style F fill:#1C0F1A,stroke:#9B5B6E,color:#C4879A
+    style G fill:#160a15,stroke:#C4879A,color:#C4879A
+    style H fill:#160a15,stroke:#555,color:#888
+```
+
+<br>
+
+---
+
+### ✦ Now
+
+<!--START_SECTION:activity-->
+<!--END_SECTION:activity-->
 
 <br>
 
@@ -108,7 +96,7 @@ flowchart LR
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/output/github-contribution-grid-snake-dark.svg" />
     <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/output/github-contribution-grid-snake.svg" />
-    <img alt="contribution snake animation" src="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/output/github-contribution-grid-snake.svg" />
+    <img alt="contribution snake" src="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/output/github-contribution-grid-snake.svg" />
   </picture>
 </div>
 
@@ -116,39 +104,18 @@ flowchart LR
 
 ---
 
-### ✦ Recent
-
-<!--START_SECTION:activity-->
-<!--END_SECTION:activity-->
-
-<br>
-
----
-
-### ✦ Find me
-
 <div align="center">
 
-[![Kaggle](https://img.shields.io/badge/Kaggle-ladyfaye-9B8EC4?style=flat-square&logo=kaggle&logoColor=white&labelColor=161032)](https://www.kaggle.com/ladyfaye)&nbsp;&nbsp;
-[![Instagram](https://img.shields.io/badge/Instagram-lady__faye1998-C49BAB?style=flat-square&logo=instagram&logoColor=white&labelColor=161032)](https://www.instagram.com/lady_faye1998/)&nbsp;&nbsp;
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Danielle%20Lesin-9B8EC4?style=flat-square&logo=linkedin&logoColor=white&labelColor=161032)](https://www.linkedin.com/in/danielle-lesin-2511b5177/)
+[![Kaggle](https://img.shields.io/badge/Kaggle-9B5B6E?style=flat-square&logo=kaggle&logoColor=F5EDE0&labelColor=1C0F1A)](https://www.kaggle.com/ladyfaye)&nbsp;
+[![Instagram](https://img.shields.io/badge/Instagram-9B5B6E?style=flat-square&logo=instagram&logoColor=F5EDE0&labelColor=1C0F1A)](https://www.instagram.com/lady_faye1998/)&nbsp;
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-9B5B6E?style=flat-square&logo=linkedin&logoColor=F5EDE0&labelColor=1C0F1A)](https://www.linkedin.com/in/danielle-lesin-2511b5177/)
+
+<br><br>
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-C4879A?style=for-the-badge&logo=githubsponsors&logoColor=F5EDE0&labelColor=1C0F1A)](https://github.com/sponsors/ladyFaye1998)
 
 </div>
 
 <br>
 
----
-
-<div align="center">
-
-*If you want to see where this goes — the novel, the research, the pixel-art knights — you can support it here.*
-
-<br>
-
-[![Sponsor](https://img.shields.io/badge/Sponsor%20Lady%20Faye-C49BAB?style=for-the-badge&logo=githubsponsors&logoColor=white&labelColor=161032)](https://github.com/sponsors/ladyFaye1998)
-
-</div>
-
-<br>
-
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:9B8EC4,100:161032&height=120&section=footer" width="100%" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:C4879A,60:5C2A3A,100:1C0F1A&height=120&section=footer" width="100%" />
