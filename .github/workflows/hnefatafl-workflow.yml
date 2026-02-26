@@ -1,8 +1,4 @@
-# ─────────────────────────────────────────────────────────────────────────────
-# Hnefatafl — triggered when an Issue is opened with title "Move: from-to"
-# e.g. Issue title: "Move: e6-e9"
-# ─────────────────────────────────────────────────────────────────────────────
-name: Hnefatafl
+name: Hnefatafl vs AI
 
 on:
   issues:
@@ -19,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Process move and redraw board
+      - name: Process move + AI response
         env:
           ISSUE_TITLE: ${{ github.event.issue.title }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
@@ -27,36 +23,112 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 - << 'PYEOF'
-          import json, os, re, pathlib, sys
+          import json, os, re, pathlib, sys, copy, random
 
           EMPTY, ATK, DEF, KING = 0, 1, 2, 3
-          ATK_LABEL  = "attacker"
-          DEF_LABEL  = "defender"
-          CORNERS    = {(0,0),(0,10),(10,0),(10,10)}
-          THRONE     = (5, 5)
+          CORNERS = {(0,0),(0,10),(10,0),(10,10)}
+          THRONE  = (5,5)
+
+          FLAVOUR_HUMAN_GOOD = [
+              "The ravens circle. The attackers press.",
+              "Steel rings on steel. The line bends.",
+              "They come like the tide — relentless.",
+              "A bold strike. The shields shudder.",
+              "The wolf-coats advance without mercy.",
+          ]
+          FLAVOUR_HUMAN_BAD = [
+              "Rash. A shield-maiden would know better.",
+              "The Gods do not favour such moves.",
+              "Odin watches. He is not impressed.",
+              "Even the skalds would not sing of this.",
+          ]
+          FLAVOUR_AI_ESCAPE = [
+              "The King moves. The horizon beckons.",
+              "Swiftly, like a hawk breaking cover.",
+              "The King's Table is not lost yet.",
+              "The shield wall holds — and advances.",
+              "Where the King walks, legend follows.",
+          ]
+          FLAVOUR_KING_ESCAPED = [
+              "The King reaches the corner! The sagas will remember this day.",
+          ]
+          FLAVOUR_KING_CAPTURED = [
+              "The King falls. The long ships return home victorious.",
+              "It is done. The King's Table is silenced.",
+          ]
 
           # ── helpers ────────────────────────────────────────────────────────
           def col(c): return ord(c.lower()) - ord('a')
           def row(r): return 11 - int(r)
           def notation(r, c): return chr(ord('a')+c) + str(11-r)
+          def find_king(board):
+              for r in range(11):
+                  for c in range(11):
+                      if board[r][c] == KING: return (r,c)
+              return None
 
           def parse_move(title):
               m = re.search(r'([a-kA-K])(\d{1,2})-([a-kA-K])(\d{1,2})', title)
               if not m: return None
-              fc, fr, tc, tr = m.group(1), m.group(2), m.group(3), m.group(4)
-              return (row(fr), col(fc)), (row(tr), col(tc))
+              return (row(m.group(2)), col(m.group(1))), (row(m.group(4)), col(m.group(3)))
 
-          def valid_move(board, fr, fc, tr, tc, turn):
+          def get_moves(board, piece_types):
+              moves = []
+              for r in range(11):
+                  for c in range(11):
+                      if board[r][c] not in piece_types: continue
+                      piece = board[r][c]
+                      for dr, dc in [(-1,0),(1,0),(0,-1),(0,1)]:
+                          for dist in range(1, 11):
+                              nr, nc = r+dr*dist, c+dc*dist
+                              if not (0<=nr<11 and 0<=nc<11): break
+                              if board[nr][nc] != EMPTY: break
+                              if (nr,nc) in CORNERS and piece != KING: continue
+                              if (nr,nc) == THRONE and piece != KING: continue
+                              moves.append(((r,c),(nr,nc)))
+              return moves
+
+          def apply_move(board, fr, fc, tr, tc):
+              b = copy.deepcopy(board)
+              piece = b[fr][fc]
+              b[tr][tc] = piece
+              b[fr][fc] = EMPTY
+              # custodian captures
+              for dr, dc in [(-1,0),(1,0),(0,-1),(0,1)]:
+                  er, ec = tr+dr, tc+dc
+                  br2, bc2 = tr+2*dr, tc+2*dc
+                  if not (0<=er<11 and 0<=ec<11): continue
+                  if not (0<=br2<11 and 0<=bc2<11): continue
+                  enemy = ATK if piece in (DEF, KING) else DEF
+                  if b[er][ec] == enemy:
+                      ally = b[br2][bc2]
+                      if ally not in (EMPTY, enemy):
+                          b[er][ec] = EMPTY
+                      elif (br2,bc2) in CORNERS or (br2,bc2) == THRONE:
+                          b[er][ec] = EMPTY
+              return b
+
+          def is_king_captured(board):
+              pos = find_king(board)
+              if pos is None: return True
+              kr, kc = pos
+              surrounding = [(kr+dr, kc+dc) for dr,dc in [(-1,0),(1,0),(0,-1),(0,1)]]
+              return all(
+                  not (0<=r<11 and 0<=c<11) or board[r][c]==ATK or (r,c)==THRONE or (r,c) in CORNERS
+                  for r,c in surrounding
+              )
+
+          def is_king_escaped(board):
+              pos = find_king(board)
+              return pos is not None and pos in CORNERS
+
+          def valid_human_move(board, fr, fc, tr, tc):
               piece = board[fr][fc]
-              if piece == EMPTY: return False, "No piece at that square."
-              if turn == ATK_LABEL and piece != ATK: return False, "It's the attackers' turn (rose ◆)."
-              if turn == DEF_LABEL and piece not in (DEF, KING): return False, "It's the defenders' turn (blue ●)."
+              if piece != ATK: return False, "No attacker at that square."
               if board[tr][tc] != EMPTY: return False, "Target square is occupied."
-              # must not land on throne or corners unless king
-              if (tr, tc) in CORNERS and piece != KING: return False, "Only the King may enter the corner squares."
-              if (tr, tc) == THRONE and piece != KING: return False, "Only the King may return to the throne."
-              # rook movement — same row or col, no leaping
-              if fr != tr and fc != tc: return False, "Pieces move in straight lines only (rook-style)."
+              if (tr,tc) in CORNERS: return False, "Only the King may enter corner squares."
+              if (tr,tc) == THRONE: return False, "Only the King may return to the throne."
+              if fr != tr and fc != tc: return False, "Pieces move in straight lines only."
               if fr == tr:
                   step = 1 if tc > fc else -1
                   for c in range(fc+step, tc, step):
@@ -67,97 +139,136 @@ jobs:
                       if board[r][fc] != EMPTY: return False, f"Path blocked at {notation(r,fc)}."
               return True, "ok"
 
-          def captures(board, tr, tc, turn):
-              captured = []
-              enemy = ATK if turn == DEF_LABEL else DEF  # simplified; king capture needs all 4
-              for dr, dc in [(-1,0),(1,0),(0,-1),(0,1)]:
-                  er, ec = tr+dr, tc+dc
-                  br, bc = tr+2*dr, tc+2*dc
-                  if 0<=er<11 and 0<=ec<11 and 0<=br<11 and 0<=bc<11:
-                      if board[er][ec] == enemy:
-                          ally = board[br][bc]
-                          if ally in (DEF, KING, ATK) and ally != enemy:
-                              captured.append((er,ec))
-              return captured
+          # ── evaluation (from defender/AI perspective — higher = better for AI) ──
+          def evaluate(board):
+              if is_king_escaped(board): return 10000
+              if is_king_captured(board): return -10000
+              kpos = find_king(board)
+              if kpos is None: return -10000
+              kr, kc = kpos
+              # min distance to any corner
+              corner_dist = min(abs(kr-cr)+abs(kc-cc) for cr,cc in CORNERS)
+              # count pieces
+              atk_count = sum(1 for r in range(11) for c in range(11) if board[r][c]==ATK)
+              def_count = sum(1 for r in range(11) for c in range(11) if board[r][c] in (DEF,KING))
+              # open paths from king toward corners
+              open_paths = 0
+              for cr, cc in CORNERS:
+                  dr = 0 if kr==cr else (1 if cr>kr else -1)
+                  dc = 0 if kc==cc else (1 if cc>kc else -1)
+                  if dr==0 or dc==0:  # straight line to corner
+                      clear = True
+                      r, c = kr+dr, kc+dc
+                      while (r,c) != (cr,cc):
+                          if board[r][c] != EMPTY: clear=False; break
+                          r+=dr; c+=dc
+                      if clear: open_paths += 1
+              return -corner_dist * 3 + (16 - atk_count) * 2 + open_paths * 8 + def_count
 
-          def king_captured(board):
-              kr,kc = next(((r,c) for r in range(11) for c in range(11) if board[r][c]==KING),(None,None))
-              if kr is None: return True  # already off board
-              surround = [(kr+dr,kc+dc) for dr,dc in [(-1,0),(1,0),(0,-1),(0,1)]]
-              return all(
-                  0<=r<11 and 0<=c<11 and (board[r][c]==ATK or (r,c)==THRONE)
-                  for r,c in surround
-              )
+          def minimax(board, depth, is_maximising, alpha, beta):
+              if is_king_escaped(board): return 10000
+              if is_king_captured(board): return -10000
+              if depth == 0: return evaluate(board)
+              if is_maximising:  # AI (defender) turn
+                  best = -99999
+                  for (fr,fc),(tr,tc) in get_moves(board, [DEF, KING]):
+                      nb = apply_move(board, fr, fc, tr, tc)
+                      best = max(best, minimax(nb, depth-1, False, alpha, beta))
+                      alpha = max(alpha, best)
+                      if beta <= alpha: break
+                  return best
+              else:  # human (attacker) turn
+                  best = 99999
+                  for (fr,fc),(tr,tc) in get_moves(board, [ATK]):
+                      nb = apply_move(board, fr, fc, tr, tc)
+                      best = min(best, minimax(nb, depth-1, True, alpha, beta))
+                      beta = min(beta, best)
+                      if beta <= alpha: break
+                  return best
 
-          def draw_board(board, turn, move_count, last_move, log):
+          def ai_move(board):
+              best_score = -99999
+              best = None
+              moves = get_moves(board, [DEF, KING])
+              random.shuffle(moves)  # avoid deterministic repetition
+              for (fr,fc),(tr,tc) in moves:
+                  nb = apply_move(board, fr, fc, tr, tc)
+                  score = minimax(nb, 2, False, -99999, 99999)
+                  if score > best_score:
+                      best_score = score
+                      best = ((fr,fc),(tr,tc))
+              return best
+
+          # ── board SVG ─────────────────────────────────────────────────────
+          def draw_board(board, move_count, last_human, last_ai, log):
               SZ=44; PAD=28; OY=50
-              W=SZ*11+PAD*2; H=SZ*11+PAD*2+60+max(0,(len(log)-1)*14)
+              W=SZ*11+PAD*2; H=SZ*11+PAD*2+75
               BG="#0D1118"; GRID_BG="#111827"; LINE="#1E3A5F"
-              THRONE_C="#2E4B6B"; CORNER_C="#1A2E48"; HL="#5A8FAF"
+              THRONE_C="#2E4B6B"; HL="#5A8FAF"
               ATK_C="#D4899A"; DEF_C="#9DC0D8"; KING_C="#F0EAE2"
               corners={(0,0),(0,10),(10,0),(10,10)}
-              
-              turn_label = "attackers to move (rose ◆)" if turn==ATK_LABEL else "defenders to move (blue ●)"
-              lm = f" · last: {last_move}" if last_move else ""
-              els = []
+              highlight = set()
+              if last_human:
+                  fm,tm=last_human.split('-')
+                  highlight.add((row(fm[1:]),col(fm[0])))
+                  highlight.add((row(tm[1:]),col(tm[0])))
+              if last_ai:
+                  fm,tm=last_ai.split('-')
+                  highlight.add((row(fm[1:]),col(fm[0])))
+                  highlight.add((row(tm[1:]),col(tm[0])))
+
+              els=[]
               els.append(f'<text x="{W//2}" y="22" text-anchor="middle" font-family="monospace" font-size="10" fill="#5A8FAF" opacity="0.6" letter-spacing="2">HNEFATAFL · THE KING\'S TABLE · MOVE {move_count}</text>')
-              els.append(f'<text x="{W//2}" y="38" text-anchor="middle" font-family="Georgia,serif" font-size="11" font-style="italic" fill="#F0EAE2" opacity="0.45">{turn_label}{lm}</text>')
+              els.append(f'<text x="{W//2}" y="38" text-anchor="middle" font-family="Georgia,serif" font-size="11" font-style="italic" fill="#F0EAE2" opacity="0.45">your move — open an Issue: Move: from-to</text>')
               els.append(f'<rect x="{PAD-4}" y="{OY+PAD-4}" width="{SZ*11+8}" height="{SZ*11+8}" rx="6" fill="{GRID_BG}" opacity="0.8"/>')
 
               for r in range(11):
                   for c in range(11):
                       x=PAD+c*SZ; y=OY+PAD+r*SZ
                       if (r,c) in corners:
-                          els.append(f'<rect x="{x}" y="{y}" width="{SZ}" height="{SZ}" fill="{CORNER_C}" stroke="{HL}" stroke-width="1.5"/>')
+                          els.append(f'<rect x="{x}" y="{y}" width="{SZ}" height="{SZ}" fill="#1A2E48" stroke="{HL}" stroke-width="1.5"/>')
                       elif r==5 and c==5:
                           els.append(f'<rect x="{x}" y="{y}" width="{SZ}" height="{SZ}" fill="{THRONE_C}" stroke="{HL}" stroke-width="1"/>')
                       else:
                           fill=BG if (r+c)%2==0 else "#0F1822"
                           els.append(f'<rect x="{x}" y="{y}" width="{SZ}" height="{SZ}" fill="{fill}" stroke="{LINE}" stroke-width="0.5"/>')
-                      if last_move:
-                          fm,tm = last_move.split('-')
-                          fc2,fr2=col(fm[0]),row(fm[1:])
-                          tc2,tr2=col(tm[0]),row(tm[1:])
-                          if (r==fr2 and c==fc2) or (r==tr2 and c==tc2):
-                              els.append(f'<rect x="{x}" y="{y}" width="{SZ}" height="{SZ}" fill="{HL}" opacity="0.12"/>')
+                      if (r,c) in highlight:
+                          els.append(f'<rect x="{x}" y="{y}" width="{SZ}" height="{SZ}" fill="{HL}" opacity="0.14"/>')
                       if r==10:
                           els.append(f'<text x="{x+SZ//2}" y="{OY+PAD+SZ*11+14}" text-anchor="middle" font-family="monospace" font-size="9" fill="#5A8FAF" opacity="0.4">{chr(97+c)}</text>')
                       if c==0:
                           els.append(f'<text x="{PAD-10}" y="{y+SZ//2+4}" text-anchor="middle" font-family="monospace" font-size="9" fill="#5A8FAF" opacity="0.4">{11-r}</text>')
 
-              for r,c in corners:
-                  els.append(f'<circle cx="{PAD+c*SZ+SZ//2}" cy="{OY+PAD+r*SZ+SZ//2}" r="6" fill="{HL}" opacity="0.3"/>')
+              for cr,cc in corners:
+                  els.append(f'<circle cx="{PAD+cc*SZ+SZ//2}" cy="{OY+PAD+cr*SZ+SZ//2}" r="6" fill="{HL}" opacity="0.3"/>')
               els.append(f'<circle cx="{PAD+5*SZ+SZ//2}" cy="{OY+PAD+5*SZ+SZ//2}" r="6" fill="{HL}" opacity="0.25"/>')
 
               for r in range(11):
                   for c in range(11):
-                      piece=board[r][c]
-                      if piece==EMPTY: continue
+                      p=board[r][c]
+                      if p==EMPTY: continue
                       x=PAD+c*SZ+SZ//2; y=OY+PAD+r*SZ+SZ//2
-                      if piece==ATK:
+                      if p==ATK:
                           d=13
                           els.append(f'<polygon points="{x},{y-d} {x+d},{y} {x},{y+d} {x-d},{y}" fill="{ATK_C}" opacity="0.88"/>')
-                      elif piece==DEF:
+                      elif p==DEF:
                           els.append(f'<circle cx="{x}" cy="{y}" r="13" fill="{DEF_C}" opacity="0.88"/>')
-                      elif piece==KING:
+                      elif p==KING:
                           d=14; s=6
                           pts=f"{x-s},{y-d} {x+s},{y-d} {x+d},{y-s} {x+d},{y+s} {x+s},{y+d} {x-s},{y+d} {x-d},{y+s} {x-d},{y-s}"
                           els.append(f'<polygon points="{pts}" fill="{KING_C}" opacity="0.95"/>')
                           els.append(f'<polygon points="{pts}" fill="none" stroke="{HL}" stroke-width="1.5"/>')
                           els.append(f'<text x="{x}" y="{y+4}" text-anchor="middle" font-family="serif" font-size="13" fill="{BG}" opacity="0.8">K</text>')
 
-              # move log (last 5)
-              log_y = OY + PAD + SZ*11 + 30
-              for i, entry in enumerate(log[-5:]):
-                  safe = entry.replace("&","&amp;").replace("<","&lt;")
-                  els.append(f'<text x="{W//2}" y="{log_y+i*14}" text-anchor="middle" font-family="monospace" font-size="9" fill="#5A8FAF" opacity="0.4">{safe}</text>')
+              # last two log lines
+              log_y = OY+PAD+SZ*11+30
+              for i, entry in enumerate(log[-2:]):
+                  safe=entry.replace("&","&amp;").replace("<","&lt;")
+                  els.append(f'<text x="{W//2}" y="{log_y+i*16}" text-anchor="middle" font-family="monospace" font-size="9" fill="#5A8FAF" opacity="0.45">{safe}</text>')
 
-              return (
-                  f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}">'
-                  f'<rect width="{W}" height="{H}" fill="{BG}" rx="12"/>'
-                  + "".join(els) +
-                  f'</svg>'
-              )
+              return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}">'
+                      f'<rect width="{W}" height="{H}" fill="{BG}" rx="12"/>'
+                      + "".join(els) + f'</svg>')
 
           # ── main ───────────────────────────────────────────────────────────
           title     = os.environ["ISSUE_TITLE"]
@@ -167,69 +278,200 @@ jobs:
           state_path = pathlib.Path("assets/hnefatafl-state.json")
           state = json.loads(state_path.read_text())
           board = state["board"]
-          turn  = state["turn"]
           log   = state.get("log", [])
+
+          if state.get("status","active") != "active":
+              comment = "⚔️ This game is already over. Open a new game by [resetting the board](https://github.com/ladyFaye1998/ladyFaye1998/issues/new?title=Reset&body=New+game+please)."
+              import subprocess
+              subprocess.run(["gh","issue","close",issue_num,"--comment",comment],
+                  env={**os.environ,"GH_TOKEN":os.environ["GH_TOKEN"]})
+              sys.exit(0)
 
           move = parse_move(title)
           if move is None:
-              comment = "❌ Couldn't parse that move. Use format `Move: e6-e9`."
-              print(comment)
+              comment = "❌ Could not parse that move. Use the format `Move: f6-f9` (column letter + row number)."
+              import subprocess
+              subprocess.run(["gh","issue","close",issue_num,"--comment",comment],
+                  env={**os.environ,"GH_TOKEN":os.environ["GH_TOKEN"]})
               sys.exit(0)
 
           (fr,fc),(tr,tc) = move
-          ok, reason = valid_move(board, fr, fc, tr, tc, turn)
+          ok, reason = valid_human_move(board, fr, fc, tr, tc)
 
           if not ok:
-              comment = f"❌ Invalid move `{notation(fr,fc)}-{notation(tr,tc)}`: {reason}"
-              print(comment)
-          else:
-              piece = board[fr][fc]
-              board[tr][tc] = piece
-              board[fr][fc] = EMPTY
+              flavour = random.choice(FLAVOUR_HUMAN_BAD)
+              comment = f'❌ Invalid move `{notation(fr,fc)}-{notation(tr,tc)}`: {reason}\n\n*"{flavour}"*'
+              import subprocess
+              subprocess.run(["gh","issue","close",issue_num,"--comment",comment],
+                  env={**os.environ,"GH_TOKEN":os.environ["GH_TOKEN"]})
+              sys.exit(0)
 
-              # captures
-              caps = captures(board, tr, tc, turn)
-              for r,c in caps:
-                  board[r][c] = EMPTY
+          # apply human move
+          board = apply_move(board, fr, fc, tr, tc)
+          state["move_count"] = state.get("move_count",0) + 1
+          human_notation = f"{notation(fr,fc)}-{notation(tr,tc)}"
+          log.append(f"#{state['move_count']} {player}: {human_notation}")
 
-              state["move_count"] += 1
-              lm = f"{notation(fr,fc)}-{notation(tr,tc)}"
-              state["last_move"] = lm
-              cap_str = f" · captured {len(caps)}" if caps else ""
-              log.append(f"#{state['move_count']} {player} ({turn[0].upper()}): {lm}{cap_str}")
-              state["log"] = log
-
-              # check win conditions
-              if (tr,tc) in CORNERS and piece == KING:
-                  state["status"] = "defender_win"
-                  state["turn"] = "defenders"
-                  comment = f"👑 **The King escapes!** Defenders win in {state['move_count']} moves. Well played, {player}."
-                  log.append("GAME OVER — Defenders win")
-              elif king_captured(board):
-                  state["status"] = "attacker_win"
-                  state["turn"] = "attackers"
-                  comment = f"⚔️ **The King is captured!** Attackers win in {state['move_count']} moves. Well played, {player}."
-                  log.append("GAME OVER — Attackers win")
-              else:
-                  state["turn"] = DEF_LABEL if turn == ATK_LABEL else ATK_LABEL
-                  comment = f"✅ Move `{lm}` played by {player}.{cap_str} Board updated — it's the **{state['turn']}s'** turn."
-
+          if is_king_captured(board):
+              state["status"] = "attacker_win"
               state["board"] = board
-              state_path.write_text(json.dumps(state, indent=2))
-
-              svg = draw_board(board, state["turn"], state["move_count"], lm, log)
+              state["log"] = log
+              svg = draw_board(board, state["move_count"], human_notation, None, log)
               pathlib.Path("assets/hnefatafl-board.svg").write_text(svg)
-              print(comment)
+              state_path.write_text(json.dumps(state, indent=2))
+              comment = f'⚔️ **The King is captured!** You win, {player}.\n\n*"{random.choice(FLAVOUR_KING_CAPTURED)}"*\n\nOpen a new Issue titled `Reset` to start again.'
+              import subprocess
+              subprocess.run(["gh","issue","close",issue_num,"--comment",comment],
+                  env={**os.environ,"GH_TOKEN":os.environ["GH_TOKEN"]})
+              sys.exit(0)
 
-          # close issue with comment
+          # AI responds
+          ai = ai_move(board)
+          ai_notation = None
+          if ai:
+              (afr,afc),(atr,atc) = ai
+              board = apply_move(board, afr, afc, atr, atc)
+              state["move_count"] += 1
+              ai_notation = f"{notation(afr,afc)}-{notation(atr,atc)}"
+              log.append(f"#{state['move_count']} The King's Guard: {ai_notation}")
+
+          if is_king_escaped(board):
+              state["status"] = "defender_win"
+              state["board"] = board
+              state["log"] = log
+              svg = draw_board(board, state["move_count"], human_notation, ai_notation, log)
+              pathlib.Path("assets/hnefatafl-board.svg").write_text(svg)
+              state_path.write_text(json.dumps(state, indent=2))
+              comment = f'👑 **The King escapes!** The King\'s Guard wins.\n\n*"{random.choice(FLAVOUR_KING_ESCAPED)}"*\n\nOpen a new Issue titled `Reset` to start again.'
+              import subprocess
+              subprocess.run(["gh","issue","close",issue_num,"--comment",comment],
+                  env={**os.environ,"GH_TOKEN":os.environ["GH_TOKEN"]})
+              sys.exit(0)
+
+          state["board"] = board
+          state["log"] = log
+          state_path.write_text(json.dumps(state, indent=2))
+          svg = draw_board(board, state["move_count"], human_notation, ai_notation, log)
+          pathlib.Path("assets/hnefatafl-board.svg").write_text(svg)
+
+          ai_line = f"The King's Guard replied **{ai_notation}**." if ai_notation else ""
+          flavour = random.choice(FLAVOUR_AI_ESCAPE)
+          comment = f'✅ Your move **{human_notation}** is played, {player}. {ai_line}\n\n*"{flavour}"*\n\nBoard updated — your move next.'
+
           import subprocess
-          subprocess.run([
-              "gh", "issue", "close", issue_num,
-              "--comment", comment
-          ], env={**os.environ, "GH_TOKEN": os.environ["GH_TOKEN"]})
+          subprocess.run(["gh","issue","close",issue_num,"--comment",comment],
+              env={**os.environ,"GH_TOKEN":os.environ["GH_TOKEN"]})
           PYEOF
 
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "game: hnefatafl move [skip ci]"
+          file_pattern: "assets/hnefatafl-board.svg assets/hnefatafl-state.json"
+
+---
+name: Hnefatafl Reset
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  reset:
+    if: github.event.issue.title == 'Reset'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Reset board to starting position
+        env:
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 - << 'PYEOF'
+          import json, pathlib, os
+
+          EMPTY, ATK, DEF, KING = 0, 1, 2, 3
+          board = [[EMPTY]*11 for _ in range(11)]
+          board[5][5] = KING
+          for r,c in [(3,5),(4,4),(4,5),(4,6),(5,3),(5,4),(5,6),(5,7),(6,4),(6,5),(6,6),(7,5)]:
+              board[r][c] = DEF
+          for r,c in [(0,3),(0,4),(0,5),(0,6),(0,7),(1,5),(3,0),(4,0),(5,0),(6,0),(7,0),
+                      (3,10),(4,10),(5,10),(6,10),(7,10),(9,5),(10,3),(10,4),(10,5),(10,6),(10,7),(5,1),(5,9)]:
+              board[r][c] = ATK
+
+          state = {"board": board, "turn": "attacker", "move_count": 0,
+                   "status": "active", "last_move": None, "log": []}
+          pathlib.Path("assets/hnefatafl-state.json").write_text(json.dumps(state, indent=2))
+          print("reset done")
+
+          import subprocess
+          subprocess.run(["gh","issue","close", os.environ["ISSUE_NUMBER"],
+              "--comment", "♟️ The board is reset. A new game begins. Open an Issue titled `Move: from-to` to play."],
+              env={**os.environ,"GH_TOKEN":os.environ["GH_TOKEN"]})
+          PYEOF
+
+      - name: Regenerate starting board SVG
+        run: |
+          python3 - << 'PYEOF'
+          import pathlib, json
+
+          state = json.loads(pathlib.Path("assets/hnefatafl-state.json").read_text())
+          board = state["board"]
+          EMPTY,ATK,DEF,KING=0,1,2,3
+          SZ=44;PAD=28;OY=50
+          W=SZ*11+PAD*2;H=SZ*11+PAD*2+75
+          BG="#0D1118";GRID_BG="#111827";LINE="#1E3A5F"
+          THRONE_C="#2E4B6B";HL="#5A8FAF"
+          ATK_C="#D4899A";DEF_C="#9DC0D8";KING_C="#F0EAE2"
+          corners={(0,0),(0,10),(10,0),(10,10)}
+          els=[]
+          els.append(f'<text x="{W//2}" y="22" text-anchor="middle" font-family="monospace" font-size="10" fill="#5A8FAF" opacity="0.6" letter-spacing="2">HNEFATAFL - THE KING\'S TABLE - NEW GAME</text>')
+          els.append(f'<text x="{W//2}" y="38" text-anchor="middle" font-family="Georgia,serif" font-size="11" font-style="italic" fill="#F0EAE2" opacity="0.45">your move first (rose diamonds) - open an Issue: Move: from-to</text>')
+          els.append(f'<rect x="{PAD-4}" y="{OY+PAD-4}" width="{SZ*11+8}" height="{SZ*11+8}" rx="6" fill="{GRID_BG}" opacity="0.8"/>')
+          for r in range(11):
+              for c in range(11):
+                  x=PAD+c*SZ;y=OY+PAD+r*SZ
+                  if (r,c) in corners:
+                      els.append(f'<rect x="{x}" y="{y}" width="{SZ}" height="{SZ}" fill="#1A2E48" stroke="{HL}" stroke-width="1.5"/>')
+                  elif r==5 and c==5:
+                      els.append(f'<rect x="{x}" y="{y}" width="{SZ}" height="{SZ}" fill="{THRONE_C}" stroke="{HL}" stroke-width="1"/>')
+                  else:
+                      fill=BG if (r+c)%2==0 else "#0F1822"
+                      els.append(f'<rect x="{x}" y="{y}" width="{SZ}" height="{SZ}" fill="{fill}" stroke="{LINE}" stroke-width="0.5"/>')
+                  if r==10:
+                      els.append(f'<text x="{x+SZ//2}" y="{OY+PAD+SZ*11+14}" text-anchor="middle" font-family="monospace" font-size="9" fill="#5A8FAF" opacity="0.4">{chr(97+c)}</text>')
+                  if c==0:
+                      els.append(f'<text x="{PAD-10}" y="{y+SZ//2+4}" text-anchor="middle" font-family="monospace" font-size="9" fill="#5A8FAF" opacity="0.4">{11-r}</text>')
+          for cr,cc in corners:
+              els.append(f'<circle cx="{PAD+cc*SZ+SZ//2}" cy="{OY+PAD+cr*SZ+SZ//2}" r="6" fill="{HL}" opacity="0.3"/>')
+          els.append(f'<circle cx="{PAD+5*SZ+SZ//2}" cy="{OY+PAD+5*SZ+SZ//2}" r="6" fill="{HL}" opacity="0.25"/>')
+          for r in range(11):
+              for c in range(11):
+                  p=board[r][c]
+                  if p==EMPTY: continue
+                  x=PAD+c*SZ+SZ//2;y=OY+PAD+r*SZ+SZ//2
+                  if p==ATK:
+                      d=13
+                      els.append(f'<polygon points="{x},{y-d} {x+d},{y} {x},{y+d} {x-d},{y}" fill="{ATK_C}" opacity="0.88"/>')
+                  elif p==DEF:
+                      els.append(f'<circle cx="{x}" cy="{y}" r="13" fill="{DEF_C}" opacity="0.88"/>')
+                  elif p==KING:
+                      d=14;s=6
+                      pts=f"{x-s},{y-d} {x+s},{y-d} {x+d},{y-s} {x+d},{y+s} {x+s},{y+d} {x-s},{y+d} {x-d},{y+s} {x-d},{y-s}"
+                      els.append(f'<polygon points="{pts}" fill="{KING_C}" opacity="0.95"/>')
+                      els.append(f'<polygon points="{pts}" fill="none" stroke="{HL}" stroke-width="1.5"/>')
+                      els.append(f'<text x="{x}" y="{y+4}" text-anchor="middle" font-family="serif" font-size="13" fill="{BG}" opacity="0.8">K</text>')
+          svg=(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}">'
+               f'<rect width="{W}" height="{H}" fill="{BG}" rx="12"/>'+"".join(els)+f'</svg>')
+          pathlib.Path("assets/hnefatafl-board.svg").write_text(svg)
+          print("board SVG reset")
+          PYEOF
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "game: hnefatafl reset [skip ci]"
           file_pattern: "assets/hnefatafl-board.svg assets/hnefatafl-state.json"
