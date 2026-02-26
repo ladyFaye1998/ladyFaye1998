@@ -1,10 +1,10 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:1C0F1A,40:5C2A3A,80:9B5B6E,100:C4879A&height=240&section=header&text=Danielle%20Lesin&fontSize=75&fontColor=F5EDE0&fontAlignY=38&animation=twinkling&desc=Lady%20Faye&descAlignY=60&descColor=D4B896&descSize=28" width="100%" />
+<img src="https://capsule-render.vercel.app/api?type=rect&color=0:1C0F1A,50:3D1F2D,100:5C2A3A&height=280&section=header&text=Danielle%20Lesin&fontSize=80&fontColor=F5EDE0&fontAlignY=35&animation=fadeIn&desc=Lady%20Faye%20%7C%20Architect%20of%20Patterns&descAlignY=58&descColor=D4B896&descSize=24" width="100%" />
 
 <br>
 
-[![Typing SVG](https://readme-typing-svg.demolab.com/?font=Lora&weight=500&size=21&pause=2000&color=D4B896&center=true&vCenter=true&width=750&lines=AI+researcher+%C2%B7+art+historian+%C2%B7+economist;MSc+Computer+Science+%E2%80%94+Georgia+Tech;I+train+models+on+17th-century+oil+paint.;five+disciplines%2C+one+thread.;418%3A+I%27m+a+teapot.)](https://github.com/ladyFaye1998)
+[![Typing SVG](https://readme-typing-svg.demolab.com/?font=Lora&weight=600&size=24&pause=2000&color=D4B896&center=true&vCenter=true&width=800&lines=Chief+AI+Scientist+in+Training;Quantum+Computing+%2B+Robotics+%40+GT;The+intersection+of+Heavy+Armor+and+Hard+Logic;Five+disciplines%2C+one+singular+thread.)](https://github.com/ladyFaye1998)
 
 <br>
 
@@ -14,108 +14,73 @@
 
 <div align="center">
 
-**MSc Computer Science (AI)** &nbsp;·&nbsp; Georgia Institute of Technology  
-**MA Art History** &nbsp;·&nbsp; Ben-Gurion University  
-**MA Celtic Studies** &nbsp;·&nbsp; University of Wales Trinity Saint David  
-**BA Economics** &nbsp;·&nbsp; Ben-Gurion University  
-**BSc Computer Science** &nbsp;·&nbsp; University of London  
+**MSc Computer Science (AI)** · *Georgia Tech* &nbsp;⋄&nbsp; **MA Art History** · *BGU* &nbsp;⋄&nbsp; **MA Celtic Studies** · *UWTSD* <br>
+**BSc Computer Science** · *UOL* &nbsp;⋄&nbsp; **BA Economics** · *BGU*
 
 </div>
 
 ---
 
-<br>
+### ✦ The Vision
+I decode the latent structures of the world. Whether it's the **Brushstroke Geometry** of a 17th-century masterpiece, the **Stochastic Optimization** of a drone's path, or the **Narrative Arc** of a time-travel epic—it is all pattern recognition.
 
-I study how machines see.  
-I study how humans have always seen — through paint, through story, through markets.  
-The through-line, it turns out, is pattern recognition.
+Currently deep-diving into **Quantum Computing** and **AI for Robotics** (GT). I’m building the bridge between the rigorous logic of the machine and the messy, beautiful history of the human experience. 
 
-<br>
-
-Currently: building a dual-model ML framework to answer an art attribution question that has been contested since the 1970s. Training on brushstroke geometry, compositional habits, and pigment distribution across the Gentileschi workshop. Also: path/policy search algorithms, PID drone controllers, particle filters — the usual.
-
-When I'm not at a desk: horseback, armor, or both.
-
-<br>
+> *When I am not at a desk: I am likely in the saddle, in plate armor, or both.*
 
 ---
 
-### ✦ Stack
+### ✦ The Forge (Stack)
 
 <div align="center">
 
-<img src="https://skillicons.dev/icons?i=python,pytorch,tensorflow,sklearn,unity,cs,typescript,postgres,aws,gcp,docker,git,linux" />
+<img src="https://skillicons.dev/icons?i=python,pytorch,tensorflow,c,cpp,cs,unity,typescript,postgres,docker,aws,linux" />
+
+<br>
+<img src="https://img.shields.io/badge/Quantum_Computing-1C0F1A?style=for-the-badge&logo=qiskit&logoColor=C4879A" />
+<img src="https://img.shields.io/badge/Robotics_PID-1C0F1A?style=for-the-badge&logo=ros&logoColor=C4879A" />
+<img src="https://img.shields.io/badge/Art_Authentication-1C0F1A?style=for-the-badge&logo=metasploit&logoColor=C4879A" />
 
 </div>
 
-<br>
+---
+
+### ✦ Current Research & "Now"
+* **Quantum Mechanics & Robotics:** Exploring the boundary where probabilistic math meets physical movement.
+* **The Gentileschi Project:** Refining a dual-model ML pipeline for high-fidelity art attribution (ResNet-50 + Geometric Stroke Analysis).
+* **Newsletter:** Developing an automated delivery mechanism for a forthcoming publication on AI, Art, and Arthurian Lore. 
 
 ---
 
-### ✦ Gentileschi Attribution Pipeline
+### ✦ Contribution Entropy
 
-*Dual-model ML framework. Settles a 50-year art history debate computationally.*
-
-```mermaid
-flowchart LR
-    A["🖼 Canvas Input"] --> B["ResNet-50\nVisual Encoder"]
-    A --> C["Stroke Geometry\nAnalyzer"]
-    B --> D["Joint\nEmbedding Space"]
-    C --> D
-    D --> E["Attribution\nClassifier"]
-    E --> F{"Confidence"}
-    F -- "≥ 0.85" --> G["🎨 Attribution\n─────────────\nArtemisia · Orazio\nWorkshop"]
-    F -- "< 0.85" --> H["⚠ Disputed\n→ Expert Queue"]
-
-    style A fill:#1C0F1A,stroke:#C4879A,color:#F5EDE0
-    style B fill:#1C0F1A,stroke:#C4879A,color:#F5EDE0
-    style C fill:#1C0F1A,stroke:#C4879A,color:#F5EDE0
-    style D fill:#1C0F1A,stroke:#D4B896,color:#F5EDE0
-    style E fill:#1C0F1A,stroke:#D4B896,color:#F5EDE0
-    style F fill:#1C0F1A,stroke:#9B5B6E,color:#C4879A
-    style G fill:#160a15,stroke:#C4879A,color:#C4879A
-    style H fill:#160a15,stroke:#555,color:#888
-```
+<div align="center">
+  <img src="https://github-readme-stats.vercel.app/api?username=ladyFaye1998&show_icons=true&theme=rose_pine&bg_color=1C0F1A&title_color=D4B896&icon_color=C4879A&text_color=F5EDE0&border_color=5C2A3A" height="180em" />
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=ladyFaye1998&layout=compact&theme=rose_pine&bg_color=1C0F1A&title_color=D4B896&icon_color=C4879A&text_color=F5EDE0&border_color=5C2A3A" height="180em" />
+</div>
 
 <br>
-
----
-
-### ✦ Now
-
-<!--START_SECTION:activity-->
-<!--END_SECTION:activity-->
-
-<br>
-
----
-
-### ✦ Contribution Map
 
 <div align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/output/github-contribution-grid-snake-dark.svg" />
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/output/github-contribution-grid-snake.svg" />
     <img alt="contribution snake" src="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/output/github-contribution-grid-snake.svg" />
   </picture>
 </div>
 
-<br>
-
 ---
+
+### ✦ Support the Expedition
+If you find value in the intersection of medieval humanities and cutting-edge AI, consider supporting the work. Contributions fuel the research (and perhaps a better set of greaves).
 
 <div align="center">
 
-[![Kaggle](https://img.shields.io/badge/Kaggle-9B5B6E?style=flat-square&logo=kaggle&logoColor=F5EDE0&labelColor=1C0F1A)](https://www.kaggle.com/ladyfaye)&nbsp;
-[![Instagram](https://img.shields.io/badge/Instagram-9B5B6E?style=flat-square&logo=instagram&logoColor=F5EDE0&labelColor=1C0F1A)](https://www.instagram.com/lady_faye1998/)&nbsp;
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-9B5B6E?style=flat-square&logo=linkedin&logoColor=F5EDE0&labelColor=1C0F1A)](https://www.linkedin.com/in/danielle-lesin-2511b5177/)
-
-<br><br>
-
-[![Sponsor](https://img.shields.io/badge/Sponsor-C4879A?style=for-the-badge&logo=githubsponsors&logoColor=F5EDE0&labelColor=1C0F1A)](https://github.com/sponsors/ladyFaye1998)
-
-</div>
+[![Sponsor Lady Faye](https://img.shields.io/badge/Sponsor_the_Research-C4879A?style=for-the-badge&logo=githubsponsors&logoColor=1C0F1A)](https://github.com/sponsors/ladyFaye1998)
 
 <br>
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:C4879A,60:5C2A3A,100:1C0F1A&height=120&section=footer" width="100%" />
+[Kaggle](https://www.kaggle.com/ladyfaye) · [LinkedIn](https://www.linkedin.com/in/danielle-lesin-2511b5177/) · [Instagram](https://www.instagram.com/lady_faye1998/)
+
+</div>
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:5C2A3A,60:3D1F2D,100:1C0F1A&height=120&section=footer" width="100%" />
