@@ -11,43 +11,17 @@ permissions:
   contents: write
 
 jobs:
-
-  # ─────────────────────────────────────────────────────────────────────────────
-  # JOB 1 — Contribution snake → pushed to `output` branch
-  # ─────────────────────────────────────────────────────────────────────────────
-  snake:
-    name: 🐍 Contribution snake
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - uses: Platane/snk/svg-only@v3
-        with:
-          github_user_name: ${{ github.repository_owner }}
-          outputs: |
-            dist/github-contribution-grid-snake.svg?color_snake=9DC0D8&color_dots[0]=0D1118&color_dots[1]=1A2E48&color_dots[2]=2E4B6B&color_dots[3]=5A8FAF&color_dots[4]=9DC0D8
-            dist/github-contribution-grid-snake-dark.svg?color_snake=D4899A&color_dots[0]=0D1118&color_dots[1]=1A2E48&color_dots[2]=2E4B6B&color_dots[3]=5A8FAF&color_dots[4]=D4899A
-
-      - uses: crazy-max/ghaction-github-pages@v3.1.0
-        with:
-          target_branch: output
-          build_dir: dist
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  # ─────────────────────────────────────────────────────────────────────────────
-  # JOB 2 — Everything committed to main
-  # ─────────────────────────────────────────────────────────────────────────────
   update-readme:
     name: ☕ Update README content
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      # ── 1. Write tea.svg ────────────────────────────────────────────────────
-      - name: Write tea.svg
+      # ── 1. Write Tea.svg ─────────────────────────────────────────────────
+      - name: Write Tea.svg
         run: |
           mkdir -p assets
-          cat > assets/tea.svg << 'SVGEOF'
+          cat > assets/Tea.svg << 'SVGEOF'
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 300" width="360" height="300">
   <rect width="360" height="300" fill="#0D1118" rx="20"/>
   <ellipse cx="190" cy="252" rx="88" ry="11" fill="#1A2E48" opacity="0.55"/>
@@ -59,7 +33,6 @@ jobs:
   <circle cx="172" cy="92" r="14" fill="#D4899A"/>
   <circle cx="167" cy="87" r="4.5" fill="white" opacity="0.35"/>
   <path d="M 258 162 C 282 150 298 135 300 118 C 293 109 280 113 274 122 C 267 135 254 156 246 166 Z" fill="#7AAEC8"/>
-  <ellipse cx="294" cy="117" rx="6" ry="4" fill="white" opacity="0.18" transform="rotate(-30 294 117)"/>
   <path d="M 84 155 C 52 155 46 174 46 189 C 46 208 61 219 84 215" fill="none" stroke="#7AAEC8" stroke-width="15" stroke-linecap="round"/>
   <path d="M 84 155 C 52 155 46 174 46 189 C 46 208 61 219 84 215" fill="none" stroke="#9DC0D8" stroke-width="7" stroke-linecap="round"/>
   <path d="M 143 178 Q 152 167 161 178" fill="none" stroke="#1A2E48" stroke-width="3.8" stroke-linecap="round"/>
@@ -72,90 +45,121 @@ jobs:
   <path d="M 160 208 Q 172 220 184 208" fill="none" stroke="#1A2E48" stroke-width="2.8" stroke-linecap="round"/>
   <circle cx="132" cy="196" r="15" fill="#D4899A" opacity="0.35"/>
   <circle cx="212" cy="196" r="15" fill="#D4899A" opacity="0.35"/>
-  <g transform="translate(150,232)">
-    <circle cx="0" cy="-7" r="4.5" fill="#F0C0CC" opacity="0.8"/>
-    <circle cx="6" cy="3.5" r="4.5" fill="#F0C0CC" opacity="0.8"/>
-    <circle cx="-6" cy="3.5" r="4.5" fill="#F0C0CC" opacity="0.8"/>
-    <circle cx="0" cy="0" r="5" fill="white" opacity="0.65"/>
+  <g transform="translate(150,232)"><circle cx="0" cy="-7" r="4.5" fill="#F0C0CC" opacity="0.8"/><circle cx="6" cy="3.5" r="4.5" fill="#F0C0CC" opacity="0.8"/><circle cx="-6" cy="3.5" r="4.5" fill="#F0C0CC" opacity="0.8"/><circle cx="0" cy="0" r="5" fill="white" opacity="0.65"/></g>
+  <g transform="translate(194,228)"><circle cx="0" cy="-6" r="4" fill="#B8D8E8" opacity="0.8"/><circle cx="5.2" cy="3" r="4" fill="#B8D8E8" opacity="0.8"/><circle cx="-5.2" cy="3" r="4" fill="#B8D8E8" opacity="0.8"/><circle cx="0" cy="0" r="4.5" fill="white" opacity="0.65"/></g>
   </g>
-  <g transform="translate(194,228)">
-    <circle cx="0" cy="-6" r="4" fill="#B8D8E8" opacity="0.8"/>
-    <circle cx="5.2" cy="3" r="4" fill="#B8D8E8" opacity="0.8"/>
-    <circle cx="-5.2" cy="3" r="4" fill="#B8D8E8" opacity="0.8"/>
-    <circle cx="0" cy="0" r="4.5" fill="white" opacity="0.65"/>
-  </g>
-  </g>
-  <text x="182" y="290" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="13" font-style="italic" fill="#9DC0D8" opacity="0.55" letter-spacing="3">Lady Faye</text>
-  <g>
-    <path d="M 166 56 C 166 50 158 44 158 52 C 158 60 166 64 166 64 C 166 64 174 60 174 52 C 174 44 166 50 166 56 Z" fill="#D4899A">
-      <animate attributeName="opacity" values="0;0.9;0" dur="3s" repeatCount="indefinite" begin="0s"/>
-      <animateTransform attributeName="transform" type="translate" values="0,0;-3,-30;-6,-60" dur="3s" repeatCount="indefinite" begin="0s"/>
-    </path>
-  </g>
-  <g>
-    <path d="M 190 54 C 190 48 182 42 182 50 C 182 58 190 62 190 62 C 190 62 198 58 198 50 C 198 42 190 48 190 54 Z" fill="#9DC0D8">
-      <animate attributeName="opacity" values="0;0.9;0" dur="3s" repeatCount="indefinite" begin="1s"/>
-      <animateTransform attributeName="transform" type="translate" values="0,0;0,-30;0,-60" dur="3s" repeatCount="indefinite" begin="1s"/>
-    </path>
-  </g>
-  <g>
-    <path d="M 214 56 C 214 50 206 44 206 52 C 206 60 214 64 214 64 C 214 64 222 60 222 52 C 222 44 214 50 214 56 Z" fill="#D4899A">
-      <animate attributeName="opacity" values="0;0.9;0" dur="3s" repeatCount="indefinite" begin="2s"/>
-      <animateTransform attributeName="transform" type="translate" values="0,0;3,-30;6,-60" dur="3s" repeatCount="indefinite" begin="2s"/>
-    </path>
-  </g>
+  <text x="182" y="290" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="13" font-style="italic" fill="#9DC0D8" opacity="0.55" letter-spacing="3">LADY FAYE</text>
+  <g><path d="M 166 56 C 166 50 158 44 158 52 C 158 60 166 64 166 64 C 166 64 174 60 174 52 C 174 44 166 50 166 56 Z" fill="#D4899A"><animate attributeName="opacity" values="0;0.9;0" dur="3s" repeatCount="indefinite" begin="0s"/><animateTransform attributeName="transform" type="translate" values="0,0;-3,-30;-6,-60" dur="3s" repeatCount="indefinite" begin="0s"/></path></g>
+  <g><path d="M 190 54 C 190 48 182 42 182 50 C 182 58 190 62 190 62 C 190 62 198 58 198 50 C 198 42 190 48 190 54 Z" fill="#9DC0D8"><animate attributeName="opacity" values="0;0.9;0" dur="3s" repeatCount="indefinite" begin="1s"/><animateTransform attributeName="transform" type="translate" values="0,0;0,-30;0,-60" dur="3s" repeatCount="indefinite" begin="1s"/></path></g>
+  <g><path d="M 214 56 C 214 50 206 44 206 52 C 206 60 214 64 214 64 C 214 64 222 60 222 52 C 222 44 214 50 214 56 Z" fill="#D4899A"><animate attributeName="opacity" values="0;0.9;0" dur="3s" repeatCount="indefinite" begin="2s"/><animateTransform attributeName="transform" type="translate" values="0,0;3,-30;6,-60" dur="3s" repeatCount="indefinite" begin="2s"/></path></g>
   <circle cx="42" cy="66" r="2.5" fill="#9DC0D8" opacity="0.5"><animate attributeName="opacity" values="0.2;0.9;0.2" dur="1.8s" repeatCount="indefinite" begin="0s"/></circle>
   <circle cx="318" cy="60" r="2" fill="#F0EAE2" opacity="0.5"><animate attributeName="opacity" values="0.9;0.1;0.9" dur="2.4s" repeatCount="indefinite" begin="0.8s"/></circle>
   <circle cx="52" cy="220" r="1.8" fill="#D4899A" opacity="0.45"><animate attributeName="opacity" values="0.3;1;0.3" dur="2.1s" repeatCount="indefinite" begin="1.5s"/></circle>
   <circle cx="310" cy="200" r="2.2" fill="#9DC0D8" opacity="0.4"><animate attributeName="opacity" values="1;0.2;1" dur="2.7s" repeatCount="indefinite" begin="0.4s"/></circle>
-  <g transform="translate(300,38) scale(0.55)">
-    <polygon points="10,0 12.9,8.1 21.8,8.1 14.9,13.1 17.8,21.2 10,16.2 2.2,21.2 5.1,13.1 -1.8,8.1 7.1,8.1" fill="#F0EAE2" opacity="0.6">
-      <animate attributeName="opacity" values="0.3;0.9;0.3" dur="2.5s" repeatCount="indefinite" begin="0.2s"/>
-    </polygon>
-  </g>
+  <g transform="translate(300,38) scale(0.55)"><polygon points="10,0 12.9,8.1 21.8,8.1 14.9,13.1 17.8,21.2 10,16.2 2.2,21.2 5.1,13.1 -1.8,8.1 7.1,8.1" fill="#F0EAE2" opacity="0.6"><animate attributeName="opacity" values="0.3;0.9;0.3" dur="2.5s" repeatCount="indefinite" begin="0.2s"/></polygon></g>
 </svg>
 SVGEOF
 
-      # ── 2. Generate research-vector.svg ─────────────────────────────────────
-      - name: Generate research vector
+      # ── 2. Generate contribution city ────────────────────────────────────
+      - name: Generate contribution city
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 - << 'PYEOF'
-          import pathlib
+          import urllib.request, json, pathlib, math, os
 
-          # ✏️ Edit these values (0.0–1.0) to reflect current focus
-          tracks = [
-              ("Machine Learning",       0.90, "#9DC0D8"),
-              ("Quantum Computing",      0.65, "#7AAEC8"),
-              ("Computational Art",      0.80, "#D4899A"),
-              ("Worldbuilding",          0.55, "#B8D8E8"),
-              ("Celtic & Med. Studies",  0.40, "#C4A8B8"),
+          # Fetch contribution data via GitHub GraphQL
+          token = os.environ["GH_TOKEN"]
+          query = """
+          {
+            user(login: "ladyFaye1998") {
+              contributionsCollection {
+                contributionCalendar {
+                  totalContributions
+                  weeks {
+                    contributionDays {
+                      contributionCount
+                    }
+                  }
+                }
+              }
+            }
+          }
+          """
+          req = urllib.request.Request(
+              "https://api.github.com/graphql",
+              data=json.dumps({"query": query}).encode(),
+              headers={"Authorization": f"bearer {token}", "Content-Type": "application/json"}
+          )
+          with urllib.request.urlopen(req) as r:
+              data = json.loads(r.read())
+
+          cal = data["data"]["user"]["contributionsCollection"]["contributionCalendar"]
+          total = cal["totalContributions"]
+          weeks = [sum(d["contributionCount"] for d in w["contributionDays"]) for w in cal["weeks"]]
+          weeks = weeks[-52:]  # last 52 weeks
+
+          # Build isometric city SVG
+          TILE_W=18; TILE_H=9; MAX_H=80; MIN_H=4; N=len(weeks)
+          BG="#0D1118"; STREET="#111827"
+          TIERS=[
+              (0,2,"#1A2E48","#0F1E30","#152538"),
+              (3,7,"#2E4B6B","#1E3350","#253D5C"),
+              (8,14,"#5A8FAF","#3D6B8A","#4A7D9E"),
+              (15,22,"#9DC0D8","#7AAEC8","#88B9D0"),
+              (23,99,"#D4899A","#B8728A","#C47E91"),
           ]
-
-          W, H = 680, 44 + len(tracks) * 46
-          BAR_X, BAR_W = 210, 380
-          rows = []
-          for i, (label, val, color) in enumerate(tracks):
-              y = 28 + i * 46
-              fill_w = int(BAR_W * val)
-              pct = int(val * 100)
-              rows.append(f'<rect x="{BAR_X}" y="{y+10}" width="{BAR_W}" height="14" rx="7" fill="#1A2E48"/>')
-              rows.append(f'''<rect x="{BAR_X}" y="{y+10}" width="0" height="14" rx="7" fill="{color}" opacity="0.85">
-                <animate attributeName="width" from="0" to="{fill_w}" dur="1.2s" begin="{i*0.15}s" fill="freeze" calcMode="spline" keySplines="0.4 0 0.2 1"/>
-              </rect>''')
-              rows.append(f'<text x="{BAR_X-12}" y="{y+22}" text-anchor="end" font-family="Georgia,serif" font-size="12" font-style="italic" fill="#F0EAE2" opacity="0.75">{label}</text>')
-              rows.append(f'<text x="{BAR_X+BAR_W+10}" y="{y+22}" font-family="monospace" font-size="11" fill="{color}" opacity="0.9">{pct}%</text>')
-
-          svg = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}">
-            <rect width="{W}" height="{H}" fill="#0D1118" rx="12"/>
-            <text x="20" y="22" font-family="monospace" font-size="11" fill="#5A8FAF" opacity="0.7" letter-spacing="2">RESEARCH VECTOR · CURRENT WEIGHTS</text>
-            {"".join(rows)}
-          </svg>'''
-
-          pathlib.Path("assets/research-vector.svg").write_text(svg)
-          print("✅ research-vector.svg generated")
+          def tier_colors(v):
+              for lo,hi,t,l,r in TIERS:
+                  if lo<=v<=hi: return t,l,r
+              return TIERS[-1][2],TIERS[-1][3],TIERS[-1][4]
+          def iso_x(c,r): return (c-r)*TILE_W//2
+          def iso_y(c,r): return (c+r)*TILE_H//2
+          COLS=7
+          xs=[iso_x(c%COLS,c//COLS) for c in range(N)]
+          ys=[iso_y(c%COLS,c//COLS) for c in range(N)]
+          city_x_min=min(xs); city_x_max=max(xs)+TILE_W
+          city_y_min=min(ys)-MAX_H; city_y_max=max(ys)+TILE_H
+          city_w=city_x_max-city_x_min; city_h=city_y_max-city_y_min
+          SVG_W=700; SVG_H=320
+          OFF_X=SVG_W//2-(city_x_min+city_w//2)
+          OFF_Y=SVG_H//2-(city_y_min+city_h//2)+10
+          max_val=max(weeks) if max(weeks)>0 else 1
+          els=[]; ground_els=[]; building_els=[]
+          for idx in range(N):
+              row_i=idx//COLS; col_i=idx%COLS; val=weeks[idx]
+              gx=iso_x(col_i,row_i)+OFF_X; gy=iso_y(col_i,row_i)+OFF_Y
+              bh=MIN_H if val==0 else int(MIN_H+(val/max_val)*(MAX_H-MIN_H))
+              top_c,left_c,right_c=tier_colors(val)
+              tw=TILE_W; th=TILE_H
+              ground_pts=f"{gx},{gy} {gx+tw//2},{gy+th//2} {gx+tw},{gy} {gx+tw//2},{gy-th//2}"
+              ground_els.append(f'<polygon points="{ground_pts}" fill="{STREET}" stroke="{BG}" stroke-width="0.5"/>')
+              ty=gy-bh
+              top_pts=f"{gx},{ty} {gx+tw//2},{ty+th//2} {gx+tw},{ty} {gx+tw//2},{ty-th//2}"
+              left_pts=f"{gx},{ty} {gx},{gy} {gx+tw//2},{gy+th//2} {gx+tw//2},{ty+th//2}"
+              right_pts=f"{gx+tw//2},{ty+th//2} {gx+tw//2},{gy+th//2} {gx+tw},{gy} {gx+tw},{ty}"
+              building_els.append((row_i,col_i,top_pts,left_pts,right_pts,top_c,left_c,right_c,val,bh,gx,ty))
+          building_els.sort(key=lambda x:x[0]*100+x[1])
+          for row_i,col_i,top_pts,left_pts,right_pts,top_c,left_c,right_c,val,bh,gx,ty in building_els:
+              els.append(f'<polygon points="{left_pts}" fill="{left_c}"/>')
+              els.append(f'<polygon points="{right_pts}" fill="{right_c}"/>')
+              els.append(f'<polygon points="{top_pts}" fill="{top_c}"/>')
+              if val>=8:
+                  wx=gx+TILE_W//4; wy=ty+bh//3
+                  els.append(f'<circle cx="{wx}" cy="{wy}" r="1.5" fill="{BG}" opacity="0.4"/>')
+                  els.append(f'<circle cx="{wx+5}" cy="{wy}" r="1.5" fill="{BG}" opacity="0.4"/>')
+              if val>=23:
+                  els.append(f'<circle cx="{gx+TILE_W//2}" cy="{ty-2}" r="3" fill="#D4899A" opacity="0.6"><animate attributeName="opacity" values="0.3;0.9;0.3" dur="2s" repeatCount="indefinite" begin="{col_i*0.3}s"/></circle>')
+          els.append(f'<text x="{SVG_W//2}" y="22" text-anchor="middle" font-family="monospace" font-size="10" fill="#5A8FAF" opacity="0.6" letter-spacing="2">CONTRIBUTION CITY - {total} COMMITS THIS YEAR</text>')
+          els.append(f'<text x="{SVG_W//2}" y="{SVG_H-10}" text-anchor="middle" font-family="Georgia,serif" font-size="10" font-style="italic" fill="#F0EAE2" opacity="0.3">taller buildings - more commits</text>')
+          svg=(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {SVG_W} {SVG_H}" width="{SVG_W}" height="{SVG_H}">'
+               f'<rect width="{SVG_W}" height="{SVG_H}" fill="{BG}" rx="12"/>'
+               +"".join(ground_els)+"".join(els)+f'</svg>')
+          pathlib.Path("assets/contribution-city.svg").write_text(svg)
+          print(f"done - {total} commits, {len(weeks)} weeks")
           PYEOF
 
-      # ── 3. Auto-update recently active repos ────────────────────────────────
+      # ── 3. Update recently active repos ──────────────────────────────────
       - name: Update recently active repos
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -188,11 +192,11 @@ SVGEOF
               readme, flags=re.DOTALL
           )
           pathlib.Path("README.md").write_text(updated)
-          print("✅ repos updated")
+          print("repos updated")
           PYEOF
 
-      # ── 4. Commit everything ─────────────────────────────────────────────────
+      # ── 4. Commit everything ─────────────────────────────────────────────
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: daily readme update [skip ci]"
-          file_pattern: "README.md assets/tea.svg assets/research-vector.svg"
+          file_pattern: "README.md assets/Tea.svg assets/contribution-city.svg"
