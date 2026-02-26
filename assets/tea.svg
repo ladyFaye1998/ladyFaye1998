@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 300" width="360" height="300">
+  <rect width="360" height="300" fill="#0D1118" rx="20"/>
+
+  <!-- shadow stays in place -->
+  <ellipse cx="190" cy="252" rx="88" ry="11" fill="#1A2E48" opacity="0.55"/>
+
+  <g transform="translate(18,-20)">
+
+  <!-- BODY — taller, still chubby -->
+  <ellipse cx="172" cy="182" rx="90" ry="86" fill="#9DC0D8"/>
+  <!-- body highlight -->
+  <ellipse cx="146" cy="146" rx="30" ry="20" fill="white" opacity="0.17" transform="rotate(-22 146 146)"/>
+
+  <!-- LID -->
+  <ellipse cx="172" cy="105" rx="58" ry="15" fill="#7AAEC8"/>
+  <ellipse cx="156" cy="101" rx="15" ry="5" fill="white" opacity="0.2"/>
+  <!-- knob -->
+  <circle cx="172" cy="92" r="14" fill="#D4899A"/>
+  <circle cx="167" cy="87" r="4.5" fill="white" opacity="0.35"/>
+
+  <!-- SPOUT -->
+  <path d="M 258 162 C 282 150 298 135 300 118 C 293 109 280 113 274 122 C 267 135 254 156 246 166 Z"
+        fill="#7AAEC8"/>
+  <ellipse cx="294" cy="117" rx="6" ry="4" fill="white" opacity="0.18" transform="rotate(-30 294 117)"/>
+
+  <!-- HANDLE -->
+  <path d="M 84 155 C 52 155 46 174 46 189 C 46 208 61 219 84 215"
+        fill="none" stroke="#7AAEC8" stroke-width="15" stroke-linecap="round"/>
+  <path d="M 84 155 C 52 155 46 174 46 189 C 46 208 61 219 84 215"
+        fill="none" stroke="#9DC0D8" stroke-width="7" stroke-linecap="round"/>
+
+  <!-- FACE -->
+  <!-- left eye — happy arch -->
+  <path d="M 143 178 Q 152 167 161 178" fill="none" stroke="#1A2E48" stroke-width="3.8" stroke-linecap="round"/>
+  <circle cx="143" cy="176" r="2.2" fill="#1A2E48"/>
+  <circle cx="161" cy="176" r="2.2" fill="#1A2E48"/>
+  <!-- right eye -->
+  <path d="M 183 178 Q 192 167 201 178" fill="none" stroke="#1A2E48" stroke-width="3.8" stroke-linecap="round"/>
+  <circle cx="183" cy="176" r="2.2" fill="#1A2E48"/>
+  <circle cx="201" cy="176" r="2.2" fill="#1A2E48"/>
+
+  <!-- NOSE — tiny soft button -->
+  <ellipse cx="172" cy="195" rx="5" ry="3.5" fill="#1A2E48" opacity="0.35"/>
+
+  <!-- smile -->
+  <path d="M 160 208 Q 172 220 184 208" fill="none" stroke="#1A2E48" stroke-width="2.8" stroke-linecap="round"/>
+
+  <!-- blush -->
+  <circle cx="132" cy="196" r="15" fill="#D4899A" opacity="0.35"/>
+  <circle cx="212" cy="196" r="15" fill="#D4899A" opacity="0.35"/>
+
+  <!-- FLOWERS on belly -->
+  <g transform="translate(150,232)">
+    <circle cx="0" cy="-7" r="4.5" fill="#F0C0CC" opacity="0.8"/>
+    <circle cx="6" cy="3.5" r="4.5" fill="#F0C0CC" opacity="0.8"/>
+    <circle cx="-6" cy="3.5" r="4.5" fill="#F0C0CC" opacity="0.8"/>
+    <circle cx="0" cy="0" r="5" fill="white" opacity="0.65"/>
+  </g>
+  <g transform="translate(194,228)">
+    <circle cx="0" cy="-6" r="4" fill="#B8D8E8" opacity="0.8"/>
+    <circle cx="5.2" cy="3" r="4" fill="#B8D8E8" opacity="0.8"/>
+    <circle cx="-5.2" cy="3" r="4" fill="#B8D8E8" opacity="0.8"/>
+    <circle cx="0" cy="0" r="4.5" fill="white" opacity="0.65"/>
+  </g>
+
+  </g>
+
+  <!-- LADY FAYE — bottom signature, not on face -->
+  <text x="182" y="290" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="13" font-style="italic"
+        fill="#9DC0D8" opacity="0.55" letter-spacing="3">Lady Faye</text>
+
+  <!-- HEART STEAM wisps -->
+  <g>
+    <path d="M 148 76 C 148 70 140 64 140 72 C 140 80 148 84 148 84 C 148 84 156 80 156 72 C 156 64 148 70 148 76 Z"
+          fill="#D4899A">
+      <animate attributeName="opacity" values="0;0.9;0" dur="3s" repeatCount="indefinite" begin="0s"/>
+      <animateTransform attributeName="transform" type="translate" values="0,0;-3,-30;-6,-60" dur="3s" repeatCount="indefinite" begin="0s"/>
+    </path>
+  </g>
+  <g>
+    <path d="M 172 74 C 172 68 164 62 164 70 C 164 78 172 82 172 82 C 172 82 180 78 180 70 C 180 62 172 68 172 74 Z"
+          fill="#9DC0D8">
+      <animate attributeName="opacity" values="0;0.9;0" dur="3s" repeatCount="indefinite" begin="1s"/>
+      <animateTransform attributeName="transform" type="translate" values="0,0;0,-30;0,-60" dur="3s" repeatCount="indefinite" begin="1s"/>
+    </path>
+  </g>
+  <g>
+    <path d="M 196 76 C 196 70 188 64 188 72 C 188 80 196 84 196 84 C 196 84 204 80 204 72 C 204 64 196 70 196 76 Z"
+          fill="#D4899A">
+      <animate attributeName="opacity" values="0;0.9;0" dur="3s" repeatCount="indefinite" begin="2s"/>
+      <animateTransform attributeName="transform" type="translate" values="0,0;3,-30;6,-60" dur="3s" repeatCount="indefinite" begin="2s"/>
+    </path>
+  </g>
+
+  <!-- SPARKLES -->
+  <circle cx="42" cy="66" r="2.5" fill="#9DC0D8" opacity="0.5">
+    <animate attributeName="opacity" values="0.2;0.9;0.2" dur="1.8s" repeatCount="indefinite" begin="0s"/>
+  </circle>
+  <circle cx="318" cy="60" r="2" fill="#F0EAE2" opacity="0.5">
+    <animate attributeName="opacity" values="0.9;0.1;0.9" dur="2.4s" repeatCount="indefinite" begin="0.8s"/>
+  </circle>
+  <circle cx="52" cy="220" r="1.8" fill="#D4899A" opacity="0.45">
+    <animate attributeName="opacity" values="0.3;1;0.3" dur="2.1s" repeatCount="indefinite" begin="1.5s"/>
+  </circle>
+  <circle cx="310" cy="200" r="2.2" fill="#9DC0D8" opacity="0.4">
+    <animate attributeName="opacity" values="1;0.2;1" dur="2.7s" repeatCount="indefinite" begin="0.4s"/>
+  </circle>
+  <!-- star top right -->
+  <g transform="translate(300,38) scale(0.55)">
+    <polygon points="10,0 12.9,8.1 21.8,8.1 14.9,13.1 17.8,21.2 10,16.2 2.2,21.2 5.1,13.1 -1.8,8.1 7.1,8.1"
+             fill="#F0EAE2" opacity="0.6">
+      <animate attributeName="opacity" values="0.3;0.9;0.3" dur="2.5s" repeatCount="indefinite" begin="0.2s"/>
+    </polygon>
+  </g>
+</svg>
