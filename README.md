@@ -1,48 +1,57 @@
 <div align="center">
-  <img src="https://capsule-render.vercel.app/api?type=transparent&color=0:000000,100:00FF99&height=180&section=header&text=Danya%20(Lady%20Faye)&fontSize=80&fontAlignY=40&animation=fadeIn&fontColor=ffffff" />
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=fbc2eb,a6c1ee&height=250&section=header&text=Lady%20Faye's%20Court&fontSize=70&fontAlignY=35&animation=twinkling&fontColor=ffffff&desc=Danielle%20Lesin%20%7C%20Storyteller.%20Scholar.%20Creator.&descAlignY=55" />
   
-  [![Typing SVG](https://readme-typing-svg.demolab.com/?font=Fira+Code&weight=600&size=24&pause=1000&color=00FF99&center=true&vCenter=true&width=800&lines=Future+Chief+AI+Scientist;AppSec+Strategist+%26+WAF+Defender;Machine+Vision+%26+Algorithm+Researcher;Time-Travel+Fiction+Author)](https://git.io/typing-svg)
+  <br>
+
+  [![Typing SVG](https://readme-typing-svg.demolab.com/?font=Lora&weight=500&size=22&pause=1500&color=B08BB6&center=true&vCenter=true&width=800&lines=Storyteller+%26+Worldbuilder;AI+Researcher+(MSc+Georgia+Tech);Art+Historian+%26+Celtic+Scholar;Knight+in+Armor+(Literally.))](https://git.io/typing-svg)
 </div>
 
 ---
 
-## ⚙️ The Multithreaded Strategist
-I engineer systems that operate at the intersection of machine intelligence, robust application security, and human narrative. As an AppSec Partner/Strategist based in Tel Aviv, I prioritize pragmatic, highly efficient problem-solving—favoring the sharp, observational logic of Sir Dinadan over blind zealotry. 
+## 📖 The Royal Archives
 
-I am currently executing across four concurrent tracks, maximizing impact while optimizing cognitive load:
-1. **Algorithmic Intelligence:** Architecting path/policy search algorithms, solar system particle filters, and PID drone controls (MSc CS, Georgia Tech).
-2. **Infrastructure Defense:** Neutralizing threats via Cloud WAF architecture and API security.
-3. **Computational Humanities:** Analyzing the Gentileschi attribution debate through machine eyes (MA Art History, BGU).
-4. **Narrative Engineering:** Writing "destined legend" time-travel fiction steeped in the Edinburgh aesthetic.
+Welcome to my realm. I am Danielle (Danya), weaving narratives across time—both through my fiction and through machine intelligence. My work is driven by a deep love for "destined legend" tropes, the atmospheric magic of Edinburgh, and the sharp, observational pragmatism of Sir Dinadan. 
+
+I do not just study history and algorithms; I live them. 
+
+### 👑 Current Quests
+* **Academic Alchemy:** Architecting intelligent systems, path/policy search algorithms, and PID drone controls (MSc Computer Science, Georgia Tech).
+* **Digital Humanities:** Blending machine vision with fine art to decode the Gentileschi attribution debate (MA Art History, BGU).
+* **Narrative Engineering:** Crafting time-travel fiction steeped in rich aesthetics and historical depth (MA Celtic Studies, UWTSD).
+* **Main Character Endeavors:** When I am away from the keyboard, I am horseback riding, practicing machine pilates, or fighting in historical medieval armor (Buhurt).
 
 ---
 
-### 🔬 Active Deployments & R&D
-* **The Gentileschi Machine Vision Project:** A computational approach to art history attribution.
-* **Ded Moroz Escape:** A dual-language mobile AR escape room.
-* **Automated Search Strategy Generation:** UOL final project focused on optimized algorithmic logic.
+### ✨ Magical Artifacts (Projects)
+* **[The Gentileschi Project](https://github.com/ladyFaye1998):** A computational approach to art history attribution using machine eyes.
+* **[Ded Moroz Escape](https://github.com/ladyFaye1998):** A dual-language mobile AR escape room.
+* **Automated Search Strategy:** Algorithmic search optimization (BSc CS, University of London).
 
-### 🛠️ Core Stack
+### 🪄 The Grimoire (Tech Stack)
 <div align="center">
-  <img src="https://skillicons.dev/icons?i=python,docker,aws,gcp,linux,git,bash,postgres" />
+  <img src="https://skillicons.dev/icons?i=python,pytorch,docker,aws,gcp,linux,git,postgres&theme=light" />
 </div>
 
 ---
 
-### 📈 Live Telemetry
+### 🌸 The Contribution Garden
+*A live, automated map of my recent activity, woven by GitHub Actions.*
+
 <div align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=ladyFaye1998&show_icons=true&theme=radical&hide_border=true&title_color=00FF99&bg_color=0D1117" width="49%" />
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=ladyFaye1998&theme=radical&hide_border=true&title_color=00FF99&background=0D1117" width="49%" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/output/github-contribution-grid-snake-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/output/github-contribution-grid-snake.svg">
+    <img alt="github contribution grid snake animation" src="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/output/github-contribution-grid-snake.svg">
+  </picture>
 </div>
 
-**Recent Commits & Deployments**
 ---
 
-### ⚡ Fuel the Research
-*Deep work across AI, AppSec, and the humanities requires serious compute and immense focus. If my open-source algorithms, AR games, or analytical methodologies have optimized your workflow or sparked a new idea, consider backing the R&D.*
+### 💌 Support the Realm
+*Deep work across AI, the humanities, and creative writing requires focus and resources. If my algorithms, AR games, or stories have sparked joy or inspiration, consider funding the royal treasury.*
 
 <div align="center">
   <a href="https://github.com/sponsors/ladyFaye1998">
-    <img src="https://img.shields.io/badge/Sponsor_Chief_AI_Scientist_Danya-238636?style=for-the-badge&logo=githubsponsors&logoColor=white" alt="Sponsor ladyFaye1998" />
+    <img src="https://img.shields.io/badge/Sponsor_Lady_Faye-FBC2EB?style=for-the-badge&logo=githubsponsors&logoColor=white&labelColor=A6C1EE" alt="Sponsor ladyFaye1998" />
   </a>
 </div>
