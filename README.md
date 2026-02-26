@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0D1118,28:1A2E48,60:5A8FAF,88:9DC0D8,100:D4899A&height=270&section=header&text=Danielle%20Lesin&fontSize=78&fontColor=F0EAE2&fontAlignY=37&animation=twinkling&font=Cormorant+Garamond&desc=Lady%20Faye&descAlignY=60&descColor=9DC0D8&descSize=32&descFont=Cormorant+Garamond" width="100%" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0D1118,28:1A2E48,60:5A8FAF,88:9DC0D8,100:D4899A&height=270&section=header&text=Danielle%20Lesin&fontSize=78&fontColor=F0EAE2&fontAlignY=37&animation=twinkling&fontAlign=50&fontAlignY=38&font=Playfair+Display&desc=Lady%20Faye&descAlignY=61&descColor=9DC0D8&descSize=32" width="100%" />
 
 <br>
 
@@ -38,10 +38,10 @@ Off-screen: horseback, armor, or both.
 
 ---
 
-<!-- ░░ FEATURE 1 — RESEARCH VECTOR ░░ -->
+<!-- ░░ FEATURE 1 — ORBITAL SYSTEM ░░ -->
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/main/assets/research-vector.svg" alt="research vector" width="680" />
+<img src="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/main/assets/orbital.svg" alt="field of study orbital system" width="700" />
 </div>
 
 <br>
