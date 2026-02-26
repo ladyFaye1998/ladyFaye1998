@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 260" width="900" height="260">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#0D1118"/>
+      <stop offset="28%"  stop-color="#1A2E48"/>
+      <stop offset="60%"  stop-color="#5A8FAF"/>
+      <stop offset="88%"  stop-color="#9DC0D8"/>
+      <stop offset="100%" stop-color="#D4899A"/>
+    </linearGradient>
+
+    <radialGradient id="glow" cx="50%" cy="55%">
+      <stop offset="0%"   stop-color="#9DC0D8" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#0D1118" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- shimmer gradient sweeping across text -->
+    <linearGradient id="shimmer" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#F0EAE2" stop-opacity="0"/>
+      <stop offset="45%"  stop-color="#F0EAE2" stop-opacity="0"/>
+      <stop offset="50%"  stop-color="#ffffff" stop-opacity="0.28"/>
+      <stop offset="55%"  stop-color="#F0EAE2" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#F0EAE2" stop-opacity="0">
+        <animate attributeName="offset" values="0.95;0.95" dur="6s" repeatCount="indefinite"/>
+      </stop>
+      <animateTransform attributeName="gradientTransform" type="translate"
+        values="-900 0; 900 0" dur="6s" repeatCount="indefinite"/>
+    </linearGradient>
+
+    <!-- pulsing glow filter -->
+    <filter id="soft-glow" x="-20%" y="-40%" width="140%" height="180%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <filter id="text-glow" x="-5%" y="-30%" width="110%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- background -->
+  <rect width="900" height="260" fill="url(#bg)"/>
+  <rect width="900" height="260" fill="url(#glow)"/>
+
+  <!-- animated wave top -->
+  <path d="M0,0 L900,0 L900,60 Q675,20 450,50 Q225,80 0,40 Z" fill="white" opacity="0.03">
+    <animate attributeName="d"
+      values="M0,0 L900,0 L900,60 Q675,20 450,50 Q225,80 0,40 Z;
+              M0,0 L900,0 L900,55 Q675,30 450,45 Q225,65 0,50 Z;
+              M0,0 L900,0 L900,60 Q675,20 450,50 Q225,80 0,40 Z"
+      dur="8s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- animated wave footer -->
+  <path d="M0,260 L0,210 Q225,270 450,230 Q675,190 900,240 L900,260 Z" fill="#0D1118" opacity="0.55">
+    <animate attributeName="d"
+      values="M0,260 L0,210 Q225,270 450,230 Q675,190 900,240 L900,260 Z;
+              M0,260 L0,215 Q225,260 450,235 Q675,200 900,235 L900,260 Z;
+              M0,260 L0,210 Q225,270 450,230 Q675,190 900,240 L900,260 Z"
+      dur="8s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- pulsing centre glow -->
+  <ellipse cx="450" cy="125" rx="260" ry="80" fill="#9DC0D8" opacity="0.07">
+    <animate attributeName="rx" values="260;300;260" dur="5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.07;0.13;0.07" dur="5s" repeatCount="indefinite"/>
+  </ellipse>
+
+  <!-- sparkles — more of them, staggered -->
+  <circle cx="80"  cy="50"  r="1.5" fill="#F0EAE2" opacity="0.4"><animate attributeName="opacity" values="0.1;0.9;0.1" dur="2.8s" repeatCount="indefinite" begin="0s"/><animate attributeName="r" values="1.5;2.2;1.5" dur="2.8s" repeatCount="indefinite" begin="0s"/></circle>
+  <circle cx="820" cy="45"  r="2"   fill="#D4899A" opacity="0.5"><animate attributeName="opacity" values="0.8;0.1;0.8" dur="2.4s" repeatCount="indefinite" begin="0.6s"/><animate attributeName="r" values="2;2.8;2" dur="2.4s" repeatCount="indefinite" begin="0.6s"/></circle>
+  <circle cx="60"  cy="200" r="1.5" fill="#9DC0D8" opacity="0.4"><animate attributeName="opacity" values="0.1;0.8;0.1" dur="4s" repeatCount="indefinite" begin="1.2s"/></circle>
+  <circle cx="840" cy="195" r="1.8" fill="#F0EAE2" opacity="0.35"><animate attributeName="opacity" values="0.3;0.9;0.3" dur="2.8s" repeatCount="indefinite" begin="2s"/></circle>
+  <circle cx="450" cy="28"  r="1.2" fill="#D4899A" opacity="0.35"><animate attributeName="opacity" values="0.2;0.7;0.2" dur="3.5s" repeatCount="indefinite" begin="0.9s"/></circle>
+  <circle cx="160" cy="35"  r="1.3" fill="#9DC0D8" opacity="0.3"><animate attributeName="opacity" values="0.1;0.7;0.1" dur="3.1s" repeatCount="indefinite" begin="1.7s"/></circle>
+  <circle cx="740" cy="38"  r="1.2" fill="#B8D8E8" opacity="0.3"><animate attributeName="opacity" values="0.5;0.1;0.5" dur="2.6s" repeatCount="indefinite" begin="0.3s"/></circle>
+  <circle cx="120" cy="145" r="1.4" fill="#D4899A" opacity="0.25"><animate attributeName="opacity" values="0.1;0.6;0.1" dur="3.8s" repeatCount="indefinite" begin="2.4s"/></circle>
+  <circle cx="780" cy="140" r="1.4" fill="#9DC0D8" opacity="0.25"><animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.3s" repeatCount="indefinite" begin="1.1s"/></circle>
+  <circle cx="300" cy="240" r="1.2" fill="#F0EAE2" opacity="0.2"><animate attributeName="opacity" values="0.1;0.5;0.1" dur="4.2s" repeatCount="indefinite" begin="0.5s"/></circle>
+  <circle cx="600" cy="242" r="1.2" fill="#D4899A" opacity="0.2"><animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.6s" repeatCount="indefinite" begin="1.9s"/></circle>
+
+  <!-- animated decorative rules — draw in on load -->
+  <line x1="450" y1="80" x2="450" y2="80" stroke="#9DC0D8" stroke-width="0.6" opacity="0.4">
+    <animate attributeName="x1" values="450;270" dur="1.4s" fill="freeze" begin="0.2s"/>
+    <animate attributeName="x2" values="450;630" dur="1.4s" fill="freeze" begin="0.2s"/>
+  </line>
+  <line x1="450" y1="168" x2="450" y2="168" stroke="#9DC0D8" stroke-width="0.6" opacity="0.4">
+    <animate attributeName="x1" values="450;270" dur="1.4s" fill="freeze" begin="0.5s"/>
+    <animate attributeName="x2" values="450;630" dur="1.4s" fill="freeze" begin="0.5s"/>
+  </line>
+
+  <!-- rule pulse -->
+  <line x1="270" y1="80" x2="630" y2="80" stroke="#9DC0D8" stroke-width="0.4" opacity="0">
+    <animate attributeName="opacity" values="0;0.2;0" dur="5s" repeatCount="indefinite" begin="2s"/>
+  </line>
+
+  <!-- main name — italic serif, capitalised, with soft glow + shimmer -->
+  <text x="450" y="150"
+        text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="82"
+        font-style="italic"
+        fill="#F0EAE2"
+        filter="url(#text-glow)"
+        letter-spacing="6">DANIELLE LESIN</text>
+
+  <!-- shimmer layer over name -->
+  <text x="450" y="150"
+        text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="82"
+        font-style="italic"
+        fill="url(#shimmer)"
+        letter-spacing="6">DANIELLE LESIN</text>
+
+  <!-- subtitle -->
+  <text x="450" y="202"
+        text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="18"
+        font-style="italic"
+        fill="#9DC0D8"
+        opacity="0.88"
+        letter-spacing="12">LADY FAYE</text>
+
+  <!-- subtitle fade in -->
+  <text x="450" y="202"
+        text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="18"
+        font-style="italic"
+        fill="#9DC0D8"
+        letter-spacing="12"
+        opacity="0">
+    LADY FAYE
+    <animate attributeName="opacity" values="0;0.88" dur="1.8s" fill="freeze" begin="0.8s"/>
+  </text>
+</svg>
