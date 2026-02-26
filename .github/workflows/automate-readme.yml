@@ -2,7 +2,7 @@ name: Automate README
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "0 6 * * *"   # 6am UTC daily (8am Tel Aviv)
   workflow_dispatch:
   push:
     branches: [main]
@@ -12,11 +12,13 @@ permissions:
 
 jobs:
 
-  # ── Contribution Snake ───────────────────────────────────────────────────────
-  # The snake eats each contribution dot and grows longer with every bite.
-  # Its max length = your total contributions this year. More commits = longer snake.
+  # ─────────────────────────────────────────────────────────
+  # JOB 1: Contribution Snake → pushed to `output` branch
+  # The snake GROWS with each dot it eats. Its max length
+  # equals your total contributions this year.
+  # ─────────────────────────────────────────────────────────
   snake:
-    name: Generate contribution snake
+    name: 🐍 Contribution snake
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -24,8 +26,8 @@ jobs:
         with:
           github_user_name: ${{ github.repository_owner }}
           outputs: |
-            dist/github-contribution-grid-snake.svg?color_snake=8AAFD4&color_dots[0]=0D1118&color_dots[1]=1B2C4F&color_dots[2]=2A3F6F&color_dots[3]=4A6FA5&color_dots[4]=8AAFD4
-            dist/github-contribution-grid-snake-dark.svg?color_snake=C4A8B8&color_dots[0]=0D1118&color_dots[1]=1B2C4F&color_dots[2]=2A3F6F&color_dots[3]=4A6FA5&color_dots[4]=C4A8B8
+            dist/github-contribution-grid-snake.svg?color_snake=9DC0D8&color_dots[0]=0D1118&color_dots[1]=1A2E48&color_dots[2]=2E4B6B&color_dots[3]=5A8FAF&color_dots[4]=9DC0D8
+            dist/github-contribution-grid-snake-dark.svg?color_snake=D4899A&color_dots[0]=0D1118&color_dots[1]=1A2E48&color_dots[2]=2E4B6B&color_dots[3]=5A8FAF&color_dots[4]=D4899A
 
       - uses: crazy-max/ghaction-github-pages@v3.1.0
         with:
@@ -34,16 +36,106 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  # ── Recent Activity Feed ─────────────────────────────────────────────────────
-  activity:
-    name: Update recent activity
+  # ─────────────────────────────────────────────────────────
+  # JOB 2: Everything that updates main branch
+  # ─────────────────────────────────────────────────────────
+  update-readme:
+    name: ☕ Update README content
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
+      # ── Generate animated tea SVG ────────────────────────
+      - name: Generate tea.svg
+        run: |
+          mkdir -p assets
+          cat > assets/tea.svg << 'SVGEOF'
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 180" width="420" height="180">
+            <rect width="420" height="180" fill="#0D1118" rx="16"/>
+            <!-- teapot body -->
+            <ellipse cx="200" cy="130" rx="74" ry="50" fill="#0F1923" stroke="#5A8FAF" stroke-width="2.5"/>
+            <!-- spout -->
+            <path d="M 274 116 C 298 104 314 90 318 77 C 311 68 298 72 291 79 C 285 93 270 110 262 118 Z"
+                  fill="#0F1923" stroke="#5A8FAF" stroke-width="2.5"/>
+            <!-- handle -->
+            <path d="M 126 113 C 100 113 96 130 96 142 C 96 158 108 166 126 164"
+                  fill="none" stroke="#5A8FAF" stroke-width="3" stroke-linecap="round"/>
+            <!-- lid -->
+            <ellipse cx="200" cy="82" rx="46" ry="11" fill="#0F1923" stroke="#5A8FAF" stroke-width="2.5"/>
+            <ellipse cx="200" cy="78" rx="12" ry="7" fill="#9DC0D8"/>
+            <!-- decorative band -->
+            <path d="M 132 118 Q 200 130 268 118" fill="none" stroke="#D4899A" stroke-width="1.5" opacity="0.55"/>
+            <!-- dots on body -->
+            <circle cx="182" cy="128" r="3" fill="#D4899A" opacity="0.65"/>
+            <circle cx="200" cy="134" r="2.5" fill="#9DC0D8" opacity="0.65"/>
+            <circle cx="218" cy="128" r="3" fill="#D4899A" opacity="0.65"/>
+            <!-- steam 1 (blue) -->
+            <path d="M 180 71 C 174 54 186 40 180 23" fill="none" stroke="#9DC0D8" stroke-width="3" stroke-linecap="round">
+              <animate attributeName="opacity" values="0;0.9;0" dur="3s" repeatCount="indefinite" begin="0s"/>
+              <animate attributeName="d" values="M 180 71 C 174 54 186 40 180 23;M 180 71 C 168 54 180 40 174 23;M 180 71 C 174 54 186 40 180 23" dur="3s" repeatCount="indefinite" begin="0s"/>
+            </path>
+            <!-- steam 2 (rose) -->
+            <path d="M 200 69 C 207 52 195 38 201 21" fill="none" stroke="#D4899A" stroke-width="3" stroke-linecap="round">
+              <animate attributeName="opacity" values="0;0.9;0" dur="3s" repeatCount="indefinite" begin="1s"/>
+              <animate attributeName="d" values="M 200 69 C 207 52 195 38 201 21;M 200 69 C 212 52 200 38 206 21;M 200 69 C 207 52 195 38 201 21" dur="3s" repeatCount="indefinite" begin="1s"/>
+            </path>
+            <!-- steam 3 (blue) -->
+            <path d="M 220 71 C 227 54 215 40 221 23" fill="none" stroke="#9DC0D8" stroke-width="3" stroke-linecap="round">
+              <animate attributeName="opacity" values="0;0.9;0" dur="3s" repeatCount="indefinite" begin="2s"/>
+              <animate attributeName="d" values="M 220 71 C 227 54 215 40 221 23;M 220 71 C 232 54 220 40 226 23;M 220 71 C 227 54 215 40 221 23" dur="3s" repeatCount="indefinite" begin="2s"/>
+            </path>
+            <!-- shadow base -->
+            <ellipse cx="200" cy="178" rx="70" ry="6" fill="#5A8FAF" opacity="0.1"/>
+            <!-- label -->
+            <text x="200" y="155" text-anchor="middle" font-family="Georgia, serif" font-size="11"
+                  fill="#F0EAE2" opacity="0.55" letter-spacing="3">L A D Y   F A Y E</text>
+          </svg>
+          SVGEOF
+          echo "✅ tea.svg generated"
+
+      # ── Rotate daily quote ───────────────────────────────
+      - name: Rotate quote
+        run: |
+          python3 - << 'PYEOF'
+          import random, re, pathlib
+
+          quotes = [
+              "The question is not whether machines can think — it is whether they can see what we have always seen.",
+              "Attribution is not certainty. It is probability, beautifully argued.",
+              "Every brushstroke is a decision. Every decision is a signature.",
+              "History is pattern recognition at civilisational scale.",
+              "The most interesting datasets are the ones nobody thought to digitise.",
+              "Neural networks learn features. Art historians learn meaning. The gap between those two things is the research.",
+              "If you can describe it precisely enough to argue about it, you can model it.",
+              "A Celtic scribe and a backpropagation algorithm are solving the same problem. One of them just knows it.",
+              "The world is not lacking in data. It is lacking in questions worth asking of it.",
+              "Economics taught me that everything is an optimisation problem. AI is teaching me which ones matter.",
+              "You do not need to choose between rigour and beauty. Baroque painters certainly did not.",
+              "The pattern holds across centuries. The tooling just got faster.",
+          ]
+
+          readme = pathlib.Path("README.md").read_text()
+          new_quote = f'> *"{random.choice(quotes)}"*'
+          updated = re.sub(
+              r"<!-- QUOTE:START -->.*?<!-- QUOTE:END -->",
+              f"<!-- QUOTE:START -->\n{new_quote}\n<!-- QUOTE:END -->",
+              readme,
+              flags=re.DOTALL
+          )
+          pathlib.Path("README.md").write_text(updated)
+          print("✅ quote rotated")
+          PYEOF
+
+      # ── Recent GitHub activity ───────────────────────────
       - uses: jamesgeorge007/github-activity-readme@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           MAX_LINES: 5
-          COMMIT_MSG: "chore: update activity feed"
+          COMMIT_MSG: "chore: update activity [skip ci]"
+
+      # ── Commit everything ────────────────────────────────
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: daily readme update — tea, quote, activity [skip ci]"
+          file_pattern: "README.md assets/tea.svg"
