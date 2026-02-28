@@ -102,8 +102,6 @@ Columns `a–k` left to right · Rows `1–11` top to bottom · [Start a new gam
 
 ---
 
----
-
 <!-- ░░ FEATURE 4 — CONTRIBUTION CITY ░░ -->
 
 ### ✦ Contribution City
