@@ -32,7 +32,7 @@ I research AI. I research *with* AI. I research alongside it and, occasionally, 
 
 I make art and study it. I build games from the bones of history and literature. I create worlds — on screen, on page, and in practice. Somewhere between machine learning, brushstroke analysis, Celtic mythology, and economic logic, there is a pattern. I am here to find it, and then build everything around it.
 
-Off-screen: horseback, armor, or both.
+Off-screen: horseback, armor, or both, and more but will elaborate later.
 
 <br>
 
