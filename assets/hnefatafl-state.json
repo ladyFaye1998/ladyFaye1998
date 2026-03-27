@@ -68,8 +68,8 @@
     [
       1,
       1,
-      2,
       0,
+      2,
       2,
       3,
       2,
@@ -99,7 +99,7 @@
       0,
       2,
       0,
-      1,
+      0,
       0,
       0,
       1
@@ -138,18 +138,15 @@
       1,
       1,
       1,
-      0,
+      1,
       0,
       0,
       0
     ]
   ],
   "turn": "attacker",
-  "move_count": 2,
+  "move_count": 0,
   "status": "active",
   "last_move": null,
-  "log": [
-    "#1 ladyFaye1998: h1-h4",
-    "#2 The King's Guard: d6-c6"
-  ]
+  "log": []
 }
