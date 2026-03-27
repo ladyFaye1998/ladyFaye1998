@@ -363,21 +363,36 @@ jobs:
               env={**os.environ,"GH_TOKEN":os.environ["GH_TOKEN"]})
           PYEOF
 
-      - name: Bust GitHub image cache
+      - name: Commit and push board files
+        id: push-board
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/hnefatafl-board.svg assets/hnefatafl-state.json
+          if git diff --staged --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "game: hnefatafl move - board [skip ci]"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Pin README SVG to exact commit SHA
+        if: steps.push-board.outputs.changed == 'true'
+        env:
+          BOARD_SHA: ${{ steps.push-board.outputs.sha }}
         run: |
           python3 - << 'PYEOF'
-          import json, re, pathlib
-          mc = json.loads(pathlib.Path("assets/hnefatafl-state.json").read_text()).get("move_count", 0)
+          import re, pathlib, os
+          sha = os.environ["BOARD_SHA"]
           readme = pathlib.Path("README.md").read_text()
           readme = re.sub(
-              r'(hnefatafl-board\.svg)\?v=\d+',
-              rf'\1?v={mc}',
+              r'(https://raw\.githubusercontent\.com/ladyFaye1998/ladyFaye1998/)[^/]+(/assets/hnefatafl-board\.svg)(\?v=\d+)?',
+              rf'\g<1>{sha}\g<2>',
               readme
           )
           pathlib.Path("README.md").write_text(readme)
           PYEOF
-
-      - uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "game: hnefatafl move [skip ci]"
-          file_pattern: "assets/hnefatafl-board.svg assets/hnefatafl-state.json README.md"
+          git add README.md
+          git diff --staged --quiet || (git commit -m "game: hnefatafl move [skip ci]" && git push)
