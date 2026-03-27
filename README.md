@@ -73,7 +73,7 @@ Institution policy means nothing leaves the classroom. The knowledge does though
 You command the **attackers** (rose ◆) against an AI defending the King.  
 Surround the King on all four sides to win. The AI responds within ~30 seconds.
 
-<img src="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/main/assets/hnefatafl-board.svg" alt="Hnefatafl board" width="540" />
+<img src="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/main/assets/hnefatafl-board.svg?v=2" alt="Hnefatafl board" width="540" />
 
 **How to play:**
 
@@ -82,7 +82,7 @@ Surround the King on all four sides to win. The AI responds within ~30 seconds.
 > 3. Submit — the board updates automatically, the AI replies in the Issue comment
 > 4. Come back and make your next move
 
-Columns `a–k` left to right · Rows `1–11` top to bottom · [Start a new game](https://github.com/ladyFaye1998/ladyFaye1998/issues/new?title=Reset&body=New+game)
+Columns `a–k` left to right · Rows `1–11` bottom to top · [Start a new game](https://github.com/ladyFaye1998/ladyFaye1998/issues/new?title=Reset&body=New+game)
 
 </div>
 

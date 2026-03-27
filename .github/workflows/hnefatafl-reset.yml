@@ -100,7 +100,16 @@ jobs:
           print("board SVG reset")
           PYEOF
 
+      - name: Bust GitHub image cache
+        run: |
+          python3 -c "
+          import re, pathlib
+          readme = pathlib.Path('README.md').read_text()
+          readme = re.sub(r'(hnefatafl-board\.svg)\?v=\d+', r'\1?v=0', readme)
+          pathlib.Path('README.md').write_text(readme)
+          "
+
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "game: hnefatafl reset [skip ci]"
-          file_pattern: "assets/hnefatafl-board.svg assets/hnefatafl-state.json"
+          file_pattern: "assets/hnefatafl-board.svg assets/hnefatafl-state.json README.md"

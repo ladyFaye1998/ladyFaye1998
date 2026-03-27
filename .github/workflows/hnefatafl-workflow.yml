@@ -363,7 +363,21 @@ jobs:
               env={**os.environ,"GH_TOKEN":os.environ["GH_TOKEN"]})
           PYEOF
 
+      - name: Bust GitHub image cache
+        run: |
+          python3 - << 'PYEOF'
+          import json, re, pathlib
+          mc = json.loads(pathlib.Path("assets/hnefatafl-state.json").read_text()).get("move_count", 0)
+          readme = pathlib.Path("README.md").read_text()
+          readme = re.sub(
+              r'(hnefatafl-board\.svg)\?v=\d+',
+              rf'\1?v={mc}',
+              readme
+          )
+          pathlib.Path("README.md").write_text(readme)
+          PYEOF
+
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "game: hnefatafl move [skip ci]"
-          file_pattern: "assets/hnefatafl-board.svg assets/hnefatafl-state.json"
+          file_pattern: "assets/hnefatafl-board.svg assets/hnefatafl-state.json README.md"
