@@ -1,0 +1,106 @@
+name: Hnefatafl Reset
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  reset:
+    if: github.event.issue.title == 'Reset'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Reset board to starting position
+        env:
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 - << 'PYEOF'
+          import json, pathlib, os
+
+          EMPTY, ATK, DEF, KING = 0, 1, 2, 3
+          board = [[EMPTY]*11 for _ in range(11)]
+          board[5][5] = KING
+          for r,c in [(3,5),(4,4),(4,5),(4,6),(5,3),(5,4),(5,6),(5,7),(6,4),(6,5),(6,6),(7,5)]:
+              board[r][c] = DEF
+          for r,c in [(0,3),(0,4),(0,5),(0,6),(0,7),(1,5),(3,0),(4,0),(5,0),(6,0),(7,0),
+                      (3,10),(4,10),(5,10),(6,10),(7,10),(9,5),(10,3),(10,4),(10,5),(10,6),(10,7),(5,1),(5,9)]:
+              board[r][c] = ATK
+
+          state = {"board": board, "turn": "attacker", "move_count": 0,
+                   "status": "active", "last_move": None, "log": []}
+          pathlib.Path("assets/hnefatafl-state.json").write_text(json.dumps(state, indent=2))
+          print("reset done")
+
+          import subprocess
+          subprocess.run(["gh","issue","close", os.environ["ISSUE_NUMBER"],
+              "--comment", "♟️ The board is reset. A new game begins. Open an Issue titled `Move: from-to` to play."],
+              env={**os.environ,"GH_TOKEN":os.environ["GH_TOKEN"]})
+          PYEOF
+
+      - name: Regenerate starting board SVG
+        run: |
+          python3 - << 'PYEOF'
+          import pathlib, json
+
+          state = json.loads(pathlib.Path("assets/hnefatafl-state.json").read_text())
+          board = state["board"]
+          EMPTY,ATK,DEF,KING=0,1,2,3
+          SZ=44;PAD=28;OY=50
+          W=SZ*11+PAD*2;H=SZ*11+PAD*2+75
+          BG="#0D1118";GRID_BG="#111827";LINE="#1E3A5F"
+          THRONE_C="#2E4B6B";HL="#5A8FAF"
+          ATK_C="#D4899A";DEF_C="#9DC0D8";KING_C="#F0EAE2"
+          corners={(0,0),(0,10),(10,0),(10,10)}
+          els=[]
+          els.append(f'<text x="{W//2}" y="22" text-anchor="middle" font-family="monospace" font-size="10" fill="#5A8FAF" opacity="0.6" letter-spacing="2">HNEFATAFL - THE KING\'S TABLE - NEW GAME</text>')
+          els.append(f'<text x="{W//2}" y="38" text-anchor="middle" font-family="Georgia,serif" font-size="11" font-style="italic" fill="#F0EAE2" opacity="0.45">your move first (rose diamonds) - open an Issue: Move: from-to</text>')
+          els.append(f'<rect x="{PAD-4}" y="{OY+PAD-4}" width="{SZ*11+8}" height="{SZ*11+8}" rx="6" fill="{GRID_BG}" opacity="0.8"/>')
+          for r in range(11):
+              for c in range(11):
+                  x=PAD+c*SZ;y=OY+PAD+r*SZ
+                  if (r,c) in corners:
+                      els.append(f'<rect x="{x}" y="{y}" width="{SZ}" height="{SZ}" fill="#1A2E48" stroke="{HL}" stroke-width="1.5"/>')
+                  elif r==5 and c==5:
+                      els.append(f'<rect x="{x}" y="{y}" width="{SZ}" height="{SZ}" fill="{THRONE_C}" stroke="{HL}" stroke-width="1"/>')
+                  else:
+                      fill=BG if (r+c)%2==0 else "#0F1822"
+                      els.append(f'<rect x="{x}" y="{y}" width="{SZ}" height="{SZ}" fill="{fill}" stroke="{LINE}" stroke-width="0.5"/>')
+                  if r==10:
+                      els.append(f'<text x="{x+SZ//2}" y="{OY+PAD+SZ*11+14}" text-anchor="middle" font-family="monospace" font-size="9" fill="#5A8FAF" opacity="0.4">{chr(97+c)}</text>')
+                  if c==0:
+                      els.append(f'<text x="{PAD-10}" y="{y+SZ//2+4}" text-anchor="middle" font-family="monospace" font-size="9" fill="#5A8FAF" opacity="0.4">{11-r}</text>')
+          for cr,cc in corners:
+              els.append(f'<circle cx="{PAD+cc*SZ+SZ//2}" cy="{OY+PAD+cr*SZ+SZ//2}" r="6" fill="{HL}" opacity="0.3"/>')
+          els.append(f'<circle cx="{PAD+5*SZ+SZ//2}" cy="{OY+PAD+5*SZ+SZ//2}" r="6" fill="{HL}" opacity="0.25"/>')
+          for r in range(11):
+              for c in range(11):
+                  p=board[r][c]
+                  if p==EMPTY: continue
+                  x=PAD+c*SZ+SZ//2;y=OY+PAD+r*SZ+SZ//2
+                  if p==ATK:
+                      d=13
+                      els.append(f'<polygon points="{x},{y-d} {x+d},{y} {x},{y+d} {x-d},{y}" fill="{ATK_C}" opacity="0.88"/>')
+                  elif p==DEF:
+                      els.append(f'<circle cx="{x}" cy="{y}" r="13" fill="{DEF_C}" opacity="0.88"/>')
+                  elif p==KING:
+                      d=14;s=6
+                      pts=f"{x-s},{y-d} {x+s},{y-d} {x+d},{y-s} {x+d},{y+s} {x+s},{y+d} {x-s},{y+d} {x-d},{y+s} {x-d},{y-s}"
+                      els.append(f'<polygon points="{pts}" fill="{KING_C}" opacity="0.95"/>')
+                      els.append(f'<polygon points="{pts}" fill="none" stroke="{HL}" stroke-width="1.5"/>')
+                      els.append(f'<text x="{x}" y="{y+4}" text-anchor="middle" font-family="serif" font-size="13" fill="{BG}" opacity="0.8">K</text>')
+          svg=(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}">'
+               f'<rect width="{W}" height="{H}" fill="{BG}" rx="12"/>'+"".join(els)+f'</svg>')
+          pathlib.Path("assets/hnefatafl-board.svg").write_text(svg)
+          print("board SVG reset")
+          PYEOF
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "game: hnefatafl reset [skip ci]"
+          file_pattern: "assets/hnefatafl-board.svg assets/hnefatafl-state.json"
