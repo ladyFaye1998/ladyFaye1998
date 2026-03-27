@@ -73,7 +73,7 @@ Institution policy means nothing leaves the classroom. The knowledge does though
 You command the **attackers** (rose ◆) against an AI defending the King.  
 Surround the King on all four sides to win. The AI responds within ~30 seconds.
 
-<img src="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/main/assets/hnefatafl-board.svg?v=2" alt="Hnefatafl board" width="540" />
+<img src="https://raw.githubusercontent.com/ladyFaye1998/ladyFaye1998/main/assets/hnefatafl-board.svg?v=4" alt="Hnefatafl board" width="540" />
 
 **How to play:**
 
